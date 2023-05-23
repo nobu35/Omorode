@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "275452983363",
+    "project_id": "omorode-e58aa",
+    "storage_bucket": "omorode-e58aa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275452983363:android:afcf7064ef25591b273cf6",
+        "android_client_info": {
+          "package_name": "com.example.omorode"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "275452983363-70lf637s2ht4s9o9gkn7t1pbro88qanu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDXkp5r8b9LBEAi-TsYMUr7ZwJ-C9Jzaw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "275452983363-70lf637s2ht4s9o9gkn7t1pbro88qanu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "275452983363-pniqcn2teau83bdib9oup67uq2dfrlcu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.omorode"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
