@@ -50,6 +50,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: const Text('Omorode'),
+        ),
+        endDrawer: Drawer(
+            child: ListView(children: const [
+          DrawerHeader(
+              decoration: BoxDecoration(color: Colors.yellowAccent),
+              child: Text("メニュー")),
+        ])),
         body: _screens[_selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
