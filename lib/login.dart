@@ -17,10 +17,10 @@ class Login extends StatelessWidget {
                 child: Column(
                   children: [
                     //textお遊び
-                    Container(
+                    const SizedBox(
                         width: double.infinity,
                         //color: Colors.black,
-                        child: const Text('Login',
+                        child: Text('Login',
                             textAlign: TextAlign.left,
                             style: TextStyle(
                                 fontSize: 36,
