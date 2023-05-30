@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'app.dart';
-import 'signin.dart';
+import 'signup.dart';
+import 'password.dart';
 
 //このページの名前決め
 class Login extends StatelessWidget {
@@ -17,24 +18,32 @@ class Login extends StatelessWidget {
                 child: Column(
                   children: [
                     //textお遊び
-                    Container(
+                    const SizedBox(
                         width: double.infinity,
                         //color: Colors.black,
-                        child: const Text('Login',
+                        child: Text('Login',
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                                fontSize: 36,
-                                color: Color.fromARGB(255, 42, 249, 49)))),
+                                fontSize: 50,
+                                color: Color.fromRGBO(102, 205, 170, 1)))),
                     //余白
-                    const Padding(padding: EdgeInsets.only(top: 100)),
+                    const Padding(padding: EdgeInsets.only(top: 200)),
                     //e-mailを入力する窓
                     const TextField(
+                      //クリックした時の入力バーの色
+                      cursorColor: Color.fromARGB(255, 102, 205, 170),
+                      //エンター押したら次の枠へ行く
+                      textInputAction: TextInputAction.next,
                       //中の文字の大きさ
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 15,
                       ),
                       decoration: InputDecoration(
+                        //枠内の文字の色
                         labelText: 'メールアドレス',
+                        //クリックした時の文字の色
+                        floatingLabelStyle: TextStyle(
+                            color: Color.fromARGB(255, 102, 205, 170)),
                         //paddingの設定
                         contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
                         //フォーカスしてないときの枠の設定
@@ -46,21 +55,28 @@ class Login extends StatelessWidget {
                         //フォーカスしてるときの枠の設定
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.blue,
+                            color: Color.fromARGB(255, 102, 205, 170),
                           ),
                         ),
                       ),
                     ),
                     //余白
-                    const Padding(padding: EdgeInsets.only(top: 50)),
+                    const Padding(padding: EdgeInsets.only(top: 80)),
 
                     //パスワードを入力する窓
                     const TextField(
+                      cursorColor: Color.fromARGB(255, 102, 205, 170),
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 15,
                       ),
                       decoration: InputDecoration(
+                        //クリックした時の入力バーの色
+                        focusColor: Color.fromARGB(255, 102, 205, 170),
+                        //枠内の文字
                         labelText: 'パスワード',
+                        //クリックした時の文字の色
+                        floatingLabelStyle: TextStyle(
+                            color: Color.fromARGB(255, 102, 205, 170)),
                         //paddingの設定
                         contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
                         //フォーカスしてないときの枠の設定
@@ -72,23 +88,30 @@ class Login extends StatelessWidget {
                         //フォーカスしてるときの枠の設定
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.blue,
+                            color: Color.fromARGB(255, 102, 205, 170),
                           ),
                         ),
                       ),
                     ),
-                    const Padding(padding: EdgeInsets.only(top: 50)),
+                    const Padding(padding: EdgeInsets.only(top: 120)),
                     //パスワードを忘れた人用ボタン
                     TextButton(
-                      onPressed: () => {},
+                      onPressed: () => {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return const Pass();
+                        }))
+                      },
                       child: const Text(
                         'パスワードを忘れた場合はこちら',
                         style: TextStyle(
-                          color: Color.fromARGB(255, 0, 169, 6),
+                          color: Color.fromARGB(255, 102, 205, 170),
                           fontSize: 20,
                         ),
                       ),
                     ),
+                    //余白
+                    const Padding(padding: EdgeInsets.only(top: 50)),
                     //横１列のボタングループ
                     ButtonBar(
                       //サイドに開く
@@ -96,19 +119,28 @@ class Login extends StatelessWidget {
                       children: [
                         //「Signin」画面に移動ボタン
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(150, 50),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 143, 143, 143)),
                           onPressed: () => {
                             Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (context) {
-                              return const Signin();
+                              return const Signup();
                             }))
                           },
-                          child: const Text('signin'),
+                          child: const Text(
+                            ('アカウント作成はこちら'),
+                            style: TextStyle(fontSize: 15),
+                          ),
                         ),
                         //「掲示板」画面に移動ボタン
                         ElevatedButton(
                           //ボタンの大きさ変更
                           style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(200, 100)),
+                              minimumSize: const Size(70, 50),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 102, 205, 170)),
                           //押した時の設定
                           onPressed: () {
                             Navigator.of(context)
@@ -117,7 +149,10 @@ class Login extends StatelessWidget {
                             }));
                           },
                           //ボタンの中のテキスト
-                          child: const Text('login'),
+                          child: const Text(
+                            ('ログイン'),
+                            style: TextStyle(fontSize: 15),
+                          ),
                         ),
                       ],
                     ),
