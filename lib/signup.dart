@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:omorode/textfield_widget.dart';
 import 'app.dart';
 import 'login.dart';
 
@@ -22,114 +23,25 @@ class Signup extends StatelessWidget {
                         child: Text('Signup',
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                                fontSize: 36,
-                                color: Color.fromARGB(255, 42, 249, 49)))),
-
+                                fontSize: 50,
+                                color: Color.fromARGB(255, 102, 205, 170)))),
                     //余白
-                    const Padding(padding: EdgeInsets.only(top: 100)),
+                    const Padding(padding: EdgeInsets.only(top: 170)),
                     //各種必要事項の入力窓
                     //メールアドレス
-                    const TextField(
-                      //中の文字の大きさ
-                      style: TextStyle(
-                        fontSize: 10,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'メールアドレス',
-                        //paddingの設定
-                        contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
-                        //フォーカスしてないときの枠の設定
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                          ),
-                        ),
-                        //フォーカスしてるときの枠の設定
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ),
-                    ),
+                    const TextA(text: "メールアドレス"),
                     //余白
-                    const Padding(padding: EdgeInsets.only(top: 10)),
+                    const Padding(padding: EdgeInsets.only(top: 30)),
                     //ユーザーネーム
-                    const TextField(
-                      //中の文字の大きさ
-                      style: TextStyle(
-                        fontSize: 10,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'ユーザーネーム',
-                        //paddingの設定
-                        contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
-                        //フォーカスしてないときの枠の設定
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                          ),
-                        ),
-                        //フォーカスしてるときの枠の設定
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ),
-                    ),
+                    const TextA(text: "ユーザーネーム"),
                     //余白
-                    const Padding(padding: EdgeInsets.only(top: 10)),
+                    const Padding(padding: EdgeInsets.only(top: 30)),
                     //パスワード
-                    const TextField(
-                      //中の文字の大きさ
-                      style: TextStyle(
-                        fontSize: 10,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'パスワード',
-                        //paddingの設定
-                        contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
-                        //フォーカスしてないときの枠の設定
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                          ),
-                        ),
-                        //フォーカスしてるときの枠の設定
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ),
-                    ),
+                    const TextA(text: "パスワード"),
                     //余白
-                    const Padding(padding: EdgeInsets.only(top: 10)),
+                    const Padding(padding: EdgeInsets.only(top: 30)),
                     //パスワード(確認)
-                    const TextField(
-                      //中の文字の大きさ
-                      style: TextStyle(
-                        fontSize: 10,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'パスワード',
-                        //paddingの設定
-                        contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
-                        //フォーカスしてないときの枠の設定
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                          ),
-                        ),
-                        //フォーカスしてるときの枠の設定
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ),
-                    ),
+                    const TextA(text: "パスワード"),
                     //余白
                     const Padding(padding: EdgeInsets.only(top: 10)),
                     //利用規約のところ
@@ -147,7 +59,7 @@ class Signup extends StatelessWidget {
                         const Text('について'),
                       ],
                     ),
-
+                    //ボタンのグループ
                     ButtonBar(
                       alignment: MainAxisAlignment.spaceBetween,
                       children: [

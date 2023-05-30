@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:omorode/textfield_widget.dart';
 import 'app.dart';
 import 'signup.dart';
 import 'password.dart';
@@ -17,7 +18,6 @@ class Login extends StatelessWidget {
                     top: 70, right: 30, bottom: 0, left: 30),
                 child: Column(
                   children: [
-                    //textお遊び
                     const SizedBox(
                         width: double.infinity,
                         //color: Colors.black,
@@ -25,74 +25,16 @@ class Login extends StatelessWidget {
                             textAlign: TextAlign.left,
                             style: TextStyle(
                                 fontSize: 50,
-                                color: Color.fromRGBO(102, 205, 170, 1)))),
+                                color: Color.fromARGB(255, 102, 205, 170)))),
                     //余白
                     const Padding(padding: EdgeInsets.only(top: 200)),
                     //e-mailを入力する窓
-                    const TextField(
-                      //クリックした時の入力バーの色
-                      cursorColor: Color.fromARGB(255, 102, 205, 170),
-                      //エンター押したら次の枠へ行く
-                      textInputAction: TextInputAction.next,
-                      //中の文字の大きさ
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                      decoration: InputDecoration(
-                        //枠内の文字の色
-                        labelText: 'メールアドレス',
-                        //クリックした時の文字の色
-                        floatingLabelStyle: TextStyle(
-                            color: Color.fromARGB(255, 102, 205, 170)),
-                        //paddingの設定
-                        contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
-                        //フォーカスしてないときの枠の設定
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                          ),
-                        ),
-                        //フォーカスしてるときの枠の設定
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color.fromARGB(255, 102, 205, 170),
-                          ),
-                        ),
-                      ),
-                    ),
+                    const TextA(text: "メールアドレス"),
                     //余白
                     const Padding(padding: EdgeInsets.only(top: 80)),
-
                     //パスワードを入力する窓
-                    const TextField(
-                      cursorColor: Color.fromARGB(255, 102, 205, 170),
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                      decoration: InputDecoration(
-                        //クリックした時の入力バーの色
-                        focusColor: Color.fromARGB(255, 102, 205, 170),
-                        //枠内の文字
-                        labelText: 'パスワード',
-                        //クリックした時の文字の色
-                        floatingLabelStyle: TextStyle(
-                            color: Color.fromARGB(255, 102, 205, 170)),
-                        //paddingの設定
-                        contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
-                        //フォーカスしてないときの枠の設定
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                          ),
-                        ),
-                        //フォーカスしてるときの枠の設定
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color.fromARGB(255, 102, 205, 170),
-                          ),
-                        ),
-                      ),
-                    ),
+                    const TextA(text: "パスワード"),
+                    //余白
                     const Padding(padding: EdgeInsets.only(top: 120)),
                     //パスワードを忘れた人用ボタン
                     TextButton(
