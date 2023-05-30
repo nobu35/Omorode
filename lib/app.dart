@@ -8,6 +8,23 @@ import 'notification.dart';
 //「src」直下にボトムバーの設定のapp.dart
 //「screens」直下に遷移するページを入れる。
 
+//テーマの色決め(?)
+MaterialColor customSwatch = const MaterialColor(
+  0xFF72E5BE,
+  <int, Color>{
+    50: Color(0xFFEDF9F5),
+    100: Color(0xFFD1F0E6),
+    200: Color(0xFFB3E6D5),
+    300: Color(0xFF94DCC4),
+    400: Color(0xFF7DD5B7),
+    500: Color(0xFF72E5BE),
+    600: Color(0xFF5EC8A3),
+    700: Color(0xFF53C199),
+    800: Color(0xFF49BA90),
+    900: Color(0xFF38AE7F),
+  },
+);
+
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
@@ -16,7 +33,8 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        //ここで上のやつを引っ張ってくる
+        primarySwatch: customSwatch,
       ),
       home: const MyStatefulWidget(),
     );
