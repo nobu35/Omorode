@@ -41,9 +41,9 @@ class Signup extends StatelessWidget {
                     //余白
                     const Padding(padding: EdgeInsets.only(top: 30)),
                     //パスワード(確認)
-                    const TextA(text: "パスワード"),
+                    const TextA(text: "パスワード(確認用)"),
                     //余白
-                    const Padding(padding: EdgeInsets.only(top: 10)),
+                    const Padding(padding: EdgeInsets.only(top: 47)),
                     //利用規約のところ
                     Row(
                       // 中央寄せ
@@ -54,34 +54,59 @@ class Signup extends StatelessWidget {
                           style: TextButton.styleFrom(
                               minimumSize: const Size(1, 1)),
                           onPressed: () {},
-                          child: const Text('利用規約'),
+                          child: const Text(
+                            ('利用規約'),
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 102, 205, 170),
+                              fontSize: 20,
+                            ),
+                          ),
                         ),
-                        const Text('について'),
+                        const Text(('について'),
+                            style: TextStyle(
+                              fontSize: 20,
+                            )),
                       ],
                     ),
+                    //余白
+                    const Padding(padding: EdgeInsets.only(top: 50)),
                     //ボタンのグループ
                     ButtonBar(
                       alignment: MainAxisAlignment.spaceBetween,
                       children: [
                         //「Login」画面に移動
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(150, 50),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 102, 205, 170)),
                           onPressed: () => {
                             Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (context) {
                               return const Login();
                             }))
                           },
-                          child: const Text('modoru'),
+                          child: const Text(
+                            ('戻る'),
+                            style: TextStyle(fontSize: 15),
+                          ),
                         ),
                         //「掲示板」画面に移動
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(20, 50),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 102, 205, 170)),
                           onPressed: () {
                             Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (context) {
                               return const App();
                             }));
                           },
-                          child: const Text('login'),
+                          child: const Text(
+                            ('ログイン'),
+                            style: TextStyle(fontSize: 15),
+                          ),
                         ),
                       ],
                     ),
