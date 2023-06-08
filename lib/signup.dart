@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:omorode/textfield_widget.dart';
-import 'app.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
+import 'emailcheck.dart';
 
-class Signup extends StatelessWidget {
+class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
+
+  @override
+  SignupState createState() => SignupState();
+}
+
+
+class SignupState extends State<Signup> {
+
+  String  infoText = '';
+  String email = '';
+  String username = '';
+  String pass = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -29,19 +42,159 @@ class Signup extends StatelessWidget {
                     const Padding(padding: EdgeInsets.only(top: 170)),
                     //各種必要事項の入力窓
                     //メールアドレス
-                    const TextA(text: "メールアドレス"),
+                    TextField(
+                      //クリックした時の入力バーの色
+                      cursorColor: const Color.fromARGB(255, 102, 205, 170),
+                      //エンター押したら次の枠へ行く
+                      textInputAction: TextInputAction.next,
+                      //中の文字の大きさ
+                      style: const TextStyle(
+                        fontSize: 15,
+                      ),
+                      onChanged: (String value){
+                        setState(() {
+                          email = value;
+                        });
+                      },
+                      decoration:const InputDecoration(
+                        //枠内の文字の色
+                        labelText: "メールアドレス",
+                        //クリックした時の文字の色
+                        floatingLabelStyle:
+                            TextStyle(color: Color.fromARGB(255, 102, 205, 170)),
+                        //paddingの設定
+                        contentPadding:  EdgeInsets.all(10), //任意の値を入れてpaddingを調節
+                        //フォーカスしてないときの枠の設定
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        //フォーカスしてるときの枠の設定
+                        focusedBorder:  OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromARGB(255, 102, 205, 170),
+                          ),
+                        ),
+                      ),
+                    ),
                     //余白
                     const Padding(padding: EdgeInsets.only(top: 30)),
                     //ユーザーネーム
-                    const TextA(text: "ユーザーネーム"),
+                    TextField(
+                      //クリックした時の入力バーの色
+                      cursorColor: const Color.fromARGB(255, 102, 205, 170),
+                      //エンター押したら次の枠へ行く
+                      textInputAction: TextInputAction.next,
+                      //中の文字の大きさ
+                      style: const TextStyle(
+                        fontSize: 15,
+                      ),
+                      onChanged: (String value){
+                        setState(() {
+                          username = value;
+                        });
+                      },
+                      decoration:const InputDecoration(
+                        //枠内の文字の色
+                        labelText: "ユーザーネーム",
+                        //クリックした時の文字の色
+                        floatingLabelStyle:
+                            TextStyle(color: Color.fromARGB(255, 102, 205, 170)),
+                        //paddingの設定
+                        contentPadding:  EdgeInsets.all(10), //任意の値を入れてpaddingを調節
+                        //フォーカスしてないときの枠の設定
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        //フォーカスしてるときの枠の設定
+                        focusedBorder:  OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromARGB(255, 102, 205, 170),
+                          ),
+                        ),
+                      ),
+                    ),
                     //余白
                     const Padding(padding: EdgeInsets.only(top: 30)),
                     //パスワード
-                    const TextA(text: "パスワード"),
+                    TextField(
+                      //クリックした時の入力バーの色
+                      cursorColor: const Color.fromARGB(255, 102, 205, 170),
+                      //エンター押したら次の枠へ行く
+                      textInputAction: TextInputAction.next,
+                      //中の文字の大きさ
+                      style: const TextStyle(
+                        fontSize: 15,
+                      ),
+                      onChanged: (String value){
+                        setState(() {
+                          pass = value;
+                        });
+                      },
+                      decoration:const InputDecoration(
+                        //枠内の文字の色
+                        labelText: "パスワード",
+                        //クリックした時の文字の色
+                        floatingLabelStyle:
+                            TextStyle(color: Color.fromARGB(255, 102, 205, 170)),
+                        //paddingの設定
+                        contentPadding:  EdgeInsets.all(10), //任意の値を入れてpaddingを調節
+                        //フォーカスしてないときの枠の設定
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        //フォーカスしてるときの枠の設定
+                        focusedBorder:  OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromARGB(255, 102, 205, 170),
+                          ),
+                        ),
+                      ),
+                    ),
                     //余白
                     const Padding(padding: EdgeInsets.only(top: 30)),
                     //パスワード(確認)
-                    const TextA(text: "パスワード(確認用)"),
+                    TextField(
+                      //クリックした時の入力バーの色
+                      cursorColor: const Color.fromARGB(255, 102, 205, 170),
+                      //エンター押したら次の枠へ行く
+                      textInputAction: TextInputAction.next,
+                      //中の文字の大きさ
+                      style: const TextStyle(
+                        fontSize: 15,
+                      ),
+                      onChanged: (String value){
+                        setState(() {
+                          password = value;
+                        });
+                      },
+                      decoration:const InputDecoration(
+                        //枠内の文字の色
+                        labelText: "パスワード(確認用)",
+                        //クリックした時の文字の色
+                        floatingLabelStyle:
+                            TextStyle(color: Color.fromARGB(255, 102, 205, 170)),
+                        //paddingの設定
+                        contentPadding:  EdgeInsets.all(10), //任意の値を入れてpaddingを調節
+                        //フォーカスしてないときの枠の設定
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        //フォーカスしてるときの枠の設定
+                        focusedBorder:  OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromARGB(255, 102, 205, 170),
+                          ),
+                        ),
+                      ),
+                    ),
                     //余白
                     const Padding(padding: EdgeInsets.only(top: 47)),
                     //利用規約のところ
@@ -66,6 +219,7 @@ class Signup extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 20,
                             )),
+                        Text(infoText)
                       ],
                     ),
                     //余白
@@ -97,16 +251,37 @@ class Signup extends StatelessWidget {
                               minimumSize: const Size(20, 50),
                               backgroundColor:
                                   const Color.fromARGB(255, 102, 205, 170)),
-                          onPressed: () {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) {
-                              return const App();
-                            }));
-                          },
-                          child: const Text(
-                            ('ログイン'),
-                            style: TextStyle(fontSize: 15),
-                          ),
+                            onPressed: () async {
+                              if (pass == password){
+                                try {
+                                  // メール/パスワードでユーザー登録
+                                  final FirebaseAuth auth = FirebaseAuth.instance;
+                                    await auth.createUserWithEmailAndPassword(
+                                    email: email,
+                                    password: password,
+                                  );
+                                  await auth.currentUser?.sendEmailVerification();
+                                  // Email確認のメールを送信
+                                  if (!mounted) return;
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Emailcheck(email: email, password: password),
+                                    )
+                                  );
+                                } catch (e) {
+                                  // ユーザー登録に失敗した場合
+                                  setState(() {
+                                    infoText = "登録に失敗しました：${e.toString()}";
+                                    print(infoText);
+                                  });
+                                }
+                              }else{
+                                infoText = "パスワードが一致しません";
+                              }},
+                              child: const Text(('新規登録'),
+                              style: TextStyle(fontSize: 15),
+                            ),
                         ),
                       ],
                     ),

@@ -3,7 +3,6 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
-import 'apikey.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -51,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: androidApiKey,
-    appId: androidAppId,
-    messagingSenderId: androidMessagingSenderId,
-    projectId: androidProjectId,
-    storageBucket: androidStorageBucket,
+    apiKey: 'AIzaSyBDXkp5r8b9LBEAi-TsYMUr7ZwJ-C9Jzaw',
+    appId: '1:275452983363:android:afcf7064ef25591b273cf6',
+    messagingSenderId: '275452983363',
+    projectId: 'omorode-e58aa',
+    storageBucket: 'omorode-e58aa.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: iosApiKey,
-    appId: iosAppId,
-    messagingSenderId: iosMessagingSenderId,
-    projectId: iosProjectId,
-    storageBucket: iosStorageBucket,
-    iosClientId: iosIosClientId,
-    iosBundleId: iosIosBundleId,
+    apiKey: 'AIzaSyDcI8_67QshHfdvkL5-5iXuctcCL-Rjn1U',
+    appId: '1:275452983363:ios:2edb96c2699de292273cf6',
+    messagingSenderId: '275452983363',
+    projectId: 'omorode-e58aa',
+    storageBucket: 'omorode-e58aa.appspot.com',
+    iosClientId: '275452983363-pniqcn2teau83bdib9oup67uq2dfrlcu.apps.googleusercontent.com',
+    iosBundleId: 'com.example.omorode',
   );
 }
