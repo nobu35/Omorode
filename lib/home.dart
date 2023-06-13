@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:omorode/login.dart';
 
@@ -12,6 +13,9 @@ class HomeScreen extends StatefulWidget {
 
 class _State extends State<HomeScreen> {
   final _usStates = ["ログアウト"];
+  //ログイン中のユーザー情報を取得
+  final userID = FirebaseAuth.instance.currentUser!.uid;
+
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +86,20 @@ class _State extends State<HomeScreen> {
           ),
         ], //長押し処理
       ),
+      body:
+          //ログアウトボタン(仮)
+          TextButton(
+            onPressed: () async {
+              //userIDを表示
+              //await FirebaseAuth.instance.signOut();
+              await Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) {
+                  return const Login();
+                }
+              ));
+            },
+            child:const Text('ログアウト'),
+          ),
     );
   }
 }

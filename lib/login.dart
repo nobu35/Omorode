@@ -179,7 +179,6 @@ class LoginState extends State<Login>{
                                   if (!isVerified){
                                     FirebaseAuth.instance.signOut();
                                     infoText = "メール認証を完了してください";
-                                    print(infoText);
                                   //認証済みの場合はホーム画面に遷移
                                   }else{
                                     if (!mounted) return;
@@ -191,7 +190,6 @@ class LoginState extends State<Login>{
                                   }catch(e){
                                     setState(() {
                                       infoText = "登録に失敗しました：${e.toString()}";
-                                      print(infoText);
                                     });
                                   }
                           },

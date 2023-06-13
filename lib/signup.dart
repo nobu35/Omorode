@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'login.dart';
 import 'emailcheck.dart';
 
@@ -18,6 +19,7 @@ class SignupState extends State<Signup> {
   String username = '';
   String pass = '';
   String password = '';
+
 
   @override
   Widget build(BuildContext context) {
@@ -260,8 +262,16 @@ class SignupState extends State<Signup> {
                                     email: email,
                                     password: password,
                                   );
-                                  await auth.currentUser?.sendEmailVerification();
+                                  //uidの取得
+                                  final uid = auth.currentUser?.uid.toString();
+                                  DateTime timestamp = DateTime.now();
+                                  //firestoreにユーザー情報を登録
+                                  await FirebaseFirestore.instance
+                                    .collection('User') // コレクションID
+                                    .doc(uid) // ドキュメントID << usersコレクション内のドキュメント
+                                    .set({'Mail': email, 'UserName': username,'Uid':uid,'CreatedAt':timestamp});
                                   // Email確認のメールを送信
+                                  await auth.currentUser?.sendEmailVerification();
                                   if (!mounted) return;
                                   Navigator.pushReplacement(
                                     context,
@@ -273,7 +283,6 @@ class SignupState extends State<Signup> {
                                   // ユーザー登録に失敗した場合
                                   setState(() {
                                     infoText = "登録に失敗しました：${e.toString()}";
-                                    print(infoText);
                                   });
                                 }
                               }else{
