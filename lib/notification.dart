@@ -7,10 +7,9 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('お知らせ'),
+        title: const Text('Omorode'),
       ),
-      body:
-          const Center(child: Text('お知らせ画面', style: TextStyle(fontSize: 32.0))),
+      body: const Center(child: Text('検索', style: TextStyle(fontSize: 32.0))),
     );
   }
 }
