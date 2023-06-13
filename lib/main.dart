@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:omorode/app.dart';
 import 'login.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,8 +60,19 @@ class MyHomePage extends StatefulWidget {
 //初期画面を設定する
 class _MyHomePageState extends State<MyHomePage> {
   @override
-  Widget build(BuildContext context) {
-//                              ↓this
-    return const Scaffold(body: Login());
-  }
+  Widget build(BuildContext context)=>MaterialApp(
+        title: 'Flutter app',
+        //ユーザーが以前ログインしていればホーム画面に、ログインしていなければLogin画面に
+        home: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              // User が null でなない、つまりサインイン済みのホーム画面へ
+              return const App();
+            }
+            // User が null である、つまり未サインインのサインイン画面へ
+            return const Login();
+          },
+        ),
+      );
 }
