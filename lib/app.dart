@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'account.dart';
-import 'bookmark.dart';
 import 'home.dart';
 import 'notification.dart';
 
@@ -9,21 +8,18 @@ import 'notification.dart';
 //「screens」直下に遷移するページを入れる。
 
 //テーマの色決め(?)
-MaterialColor customSwatch = const MaterialColor(
-  0xFF72E5BE,
-  <int, Color>{
-    50: Color(0xFFEDF9F5),
-    100: Color(0xFFD1F0E6),
-    200: Color(0xFFB3E6D5),
-    300: Color(0xFF94DCC4),
-    400: Color(0xFF7DD5B7),
-    500: Color(0xFF72E5BE),
-    600: Color(0xFF5EC8A3),
-    700: Color(0xFF53C199),
-    800: Color(0xFF49BA90),
-    900: Color(0xFF38AE7F),
-  },
-);
+MaterialColor customSwatch = const MaterialColor(0xFF9CDBC5, <int, Color>{
+  50: Color(0xFFF7FCFB),
+  100: Color(0xFFECF9F5),
+  200: Color(0xFFE0F5EE),
+  300: Color(0xFFD3F0E7),
+  400: Color(0xFFC9EDE1),
+  500: Color(0xFFC0EADC),
+  600: Color(0xFFBAE7D8),
+  700: Color(0xFFB2E4D3),
+  800: Color(0xFFAAE1CE),
+  900: Color(0xFF9CDBC5),
+});
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -52,7 +48,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const _screens = [
     //移動する画面の一覧
     HomeScreen(),
-    BookmarkScreen(),
     NotificationScreen(),
     AccountScreen()
   ];
@@ -75,9 +70,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           items: const <BottomNavigationBarItem>[
             //アイコンのデザインと下の文字の設定
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'ホーム'),
-            BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'お気に入り'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.notifications), label: 'お知らせ'),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: '検索'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'アカウント'),
           ],
           type: BottomNavigationBarType.fixed,
