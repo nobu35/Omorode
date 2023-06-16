@@ -11,15 +11,12 @@ class Signup extends StatefulWidget {
   SignupState createState() => SignupState();
 }
 
-
 class SignupState extends State<Signup> {
-
-  String  infoText = '';
+  String infoText = '';
   String email = '';
   String username = '';
   String pass = '';
   String password = '';
-
 
   @override
   Widget build(BuildContext context) {
@@ -53,19 +50,19 @@ class SignupState extends State<Signup> {
                       style: const TextStyle(
                         fontSize: 15,
                       ),
-                      onChanged: (String value){
+                      onChanged: (String value) {
                         setState(() {
                           email = value;
                         });
                       },
-                      decoration:const InputDecoration(
+                      decoration: const InputDecoration(
                         //枠内の文字の色
                         labelText: "メールアドレス",
                         //クリックした時の文字の色
-                        floatingLabelStyle:
-                            TextStyle(color: Color.fromARGB(255, 102, 205, 170)),
+                        floatingLabelStyle: TextStyle(
+                            color: Color.fromARGB(255, 102, 205, 170)),
                         //paddingの設定
-                        contentPadding:  EdgeInsets.all(10), //任意の値を入れてpaddingを調節
+                        contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
                         //フォーカスしてないときの枠の設定
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -73,7 +70,7 @@ class SignupState extends State<Signup> {
                           ),
                         ),
                         //フォーカスしてるときの枠の設定
-                        focusedBorder:  OutlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color.fromARGB(255, 102, 205, 170),
                           ),
@@ -92,19 +89,19 @@ class SignupState extends State<Signup> {
                       style: const TextStyle(
                         fontSize: 15,
                       ),
-                      onChanged: (String value){
+                      onChanged: (String value) {
                         setState(() {
                           username = value;
                         });
                       },
-                      decoration:const InputDecoration(
+                      decoration: const InputDecoration(
                         //枠内の文字の色
                         labelText: "ユーザーネーム",
                         //クリックした時の文字の色
-                        floatingLabelStyle:
-                            TextStyle(color: Color.fromARGB(255, 102, 205, 170)),
+                        floatingLabelStyle: TextStyle(
+                            color: Color.fromARGB(255, 102, 205, 170)),
                         //paddingの設定
-                        contentPadding:  EdgeInsets.all(10), //任意の値を入れてpaddingを調節
+                        contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
                         //フォーカスしてないときの枠の設定
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -112,7 +109,7 @@ class SignupState extends State<Signup> {
                           ),
                         ),
                         //フォーカスしてるときの枠の設定
-                        focusedBorder:  OutlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color.fromARGB(255, 102, 205, 170),
                           ),
@@ -131,19 +128,19 @@ class SignupState extends State<Signup> {
                       style: const TextStyle(
                         fontSize: 15,
                       ),
-                      onChanged: (String value){
+                      onChanged: (String value) {
                         setState(() {
                           pass = value;
                         });
                       },
-                      decoration:const InputDecoration(
+                      decoration: const InputDecoration(
                         //枠内の文字の色
                         labelText: "パスワード",
                         //クリックした時の文字の色
-                        floatingLabelStyle:
-                            TextStyle(color: Color.fromARGB(255, 102, 205, 170)),
+                        floatingLabelStyle: TextStyle(
+                            color: Color.fromARGB(255, 102, 205, 170)),
                         //paddingの設定
-                        contentPadding:  EdgeInsets.all(10), //任意の値を入れてpaddingを調節
+                        contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
                         //フォーカスしてないときの枠の設定
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -151,7 +148,7 @@ class SignupState extends State<Signup> {
                           ),
                         ),
                         //フォーカスしてるときの枠の設定
-                        focusedBorder:  OutlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color.fromARGB(255, 102, 205, 170),
                           ),
@@ -170,19 +167,19 @@ class SignupState extends State<Signup> {
                       style: const TextStyle(
                         fontSize: 15,
                       ),
-                      onChanged: (String value){
+                      onChanged: (String value) {
                         setState(() {
                           password = value;
                         });
                       },
-                      decoration:const InputDecoration(
+                      decoration: const InputDecoration(
                         //枠内の文字の色
                         labelText: "パスワード(確認用)",
                         //クリックした時の文字の色
-                        floatingLabelStyle:
-                            TextStyle(color: Color.fromARGB(255, 102, 205, 170)),
+                        floatingLabelStyle: TextStyle(
+                            color: Color.fromARGB(255, 102, 205, 170)),
                         //paddingの設定
-                        contentPadding:  EdgeInsets.all(10), //任意の値を入れてpaddingを調節
+                        contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
                         //フォーカスしてないときの枠の設定
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -190,7 +187,7 @@ class SignupState extends State<Signup> {
                           ),
                         ),
                         //フォーカスしてるときの枠の設定
-                        focusedBorder:  OutlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color.fromARGB(255, 102, 205, 170),
                           ),
@@ -217,13 +214,13 @@ class SignupState extends State<Signup> {
                             ),
                           ),
                         ),
-                        const Text(('について'),
+                        const Text(("について"),
                             style: TextStyle(
                               fontSize: 20,
                             )),
-                        Text(infoText)
                       ],
                     ),
+                    Text(infoText, style: const TextStyle(fontSize: 20)),
                     //余白
                     const Padding(padding: EdgeInsets.only(top: 50)),
                     //ボタンのグループ
@@ -253,44 +250,51 @@ class SignupState extends State<Signup> {
                               minimumSize: const Size(20, 50),
                               backgroundColor:
                                   const Color.fromARGB(255, 102, 205, 170)),
-                            onPressed: () async {
-                              if (pass == password){
-                                try {
-                                  // メール/パスワードでユーザー登録
-                                  final FirebaseAuth auth = FirebaseAuth.instance;
-                                    await auth.createUserWithEmailAndPassword(
-                                    email: email,
-                                    password: password,
-                                  );
-                                  //uidの取得
-                                  final uid = auth.currentUser?.uid.toString();
-                                  DateTime timestamp = DateTime.now();
-                                  //firestoreにユーザー情報を登録
-                                  await FirebaseFirestore.instance
+                          onPressed: () async {
+                            if (pass == password) {
+                              try {
+                                // メール/パスワードでユーザー登録
+                                final FirebaseAuth auth = FirebaseAuth.instance;
+                                await auth.createUserWithEmailAndPassword(
+                                  email: email,
+                                  password: password,
+                                );
+                                //uidの取得
+                                final uid = auth.currentUser?.uid.toString();
+                                DateTime timestamp = DateTime.now();
+                                //firestoreにユーザー情報を登録
+                                await FirebaseFirestore.instance
                                     .collection('User') // コレクションID
                                     .doc(uid) // ドキュメントID << usersコレクション内のドキュメント
-                                    .set({'Mail': email, 'UserName': username,'Uid':uid,'CreatedAt':timestamp});
-                                  // Email確認のメールを送信
-                                  await auth.currentUser?.sendEmailVerification();
-                                  if (!mounted) return;
-                                  Navigator.pushReplacement(
+                                    .set({
+                                  'Mail': email,
+                                  'UserName': username,
+                                  'Uid': uid,
+                                  'CreatedAt': timestamp
+                                });
+                                // Email確認のメールを送信
+                                await auth.currentUser?.sendEmailVerification();
+                                if (!mounted) return;
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => Emailcheck(email: email, password: password),
-                                    )
-                                  );
-                                } catch (e) {
-                                  // ユーザー登録に失敗した場合
-                                  setState(() {
-                                    infoText = "登録に失敗しました：${e.toString()}";
-                                  });
-                                }
-                              }else{
-                                infoText = "パスワードが一致しません";
-                              }},
-                              child: const Text(('新規登録'),
-                              style: TextStyle(fontSize: 15),
-                            ),
+                                      builder: (context) => Emailcheck(
+                                          email: email, password: password),
+                                    ));
+                              } catch (e) {
+                                // ユーザー登録に失敗した場合
+                                setState(() {
+                                  infoText = "登録に失敗しました\n${e.toString()}";
+                                });
+                              }
+                            } else {
+                              infoText = "パスワードが一致しません";
+                            }
+                          },
+                          child: const Text(
+                            ('新規登録'),
+                            style: TextStyle(fontSize: 15),
+                          ),
                         ),
                       ],
                     ),
