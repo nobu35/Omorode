@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:omorode/login.dart';
+import 'package:omorode/post.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -26,6 +27,8 @@ class _State extends State<HomeScreen> {
           PopupMenuButton<String>(
             onSelected: (String s) {
               setState(() {});
+              //後日変更
+              FirebaseAuth.instance.signOut();
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute<void>(builder: (context) => const Login()),
@@ -43,7 +46,7 @@ class _State extends State<HomeScreen> {
           )
         ],
         centerTitle: false,
-        title: const Text('     Omorode',
+        title: const Text('  Omorode',
             style: TextStyle(
               fontSize: 40,
             )),
@@ -54,52 +57,38 @@ class _State extends State<HomeScreen> {
       floatingActionButton: SpeedDial(
         icon: Icons.add,
         activeIcon: Icons.close,
-        backgroundColor: Color.fromARGB(255, 102, 205, 170),
+        backgroundColor: const Color.fromARGB(255, 102, 205, 170),
         closeManually: true,
         onPress: () {
-          print("tap");
+          Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) {
+          return const MapPage();
+          }));
         }, //短押し処理
         children: [
           SpeedDialChild(
-            child: Icon(Icons.share_rounded),
+            child: const Icon(Icons.share_rounded),
             label: '共有',
             backgroundColor: Colors.blue,
             onTap: () {
-              print('Share Tapped');
             },
           ),
           SpeedDialChild(
-            child: Icon(Icons.mail),
+            child: const Icon(Icons.mail),
             label: 'メール',
             backgroundColor: Colors.blue,
             onTap: () {
-              print('Mail Tapped');
             },
           ),
           SpeedDialChild(
-            child: Icon(Icons.copy),
+            child: const Icon(Icons.copy),
             label: 'コピー',
             backgroundColor: Colors.blue,
             onTap: () {
-              print('Copy Tapped');
             },
           ),
         ], //長押し処理
       ),
-      body:
-          //ログアウトボタン(仮)
-          TextButton(
-            onPressed: () async {
-              //userIDを表示
-              //await FirebaseAuth.instance.signOut();
-              await Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) {
-                  return const Login();
-                }
-              ));
-            },
-            child:const Text('ログアウト'),
-          ),
     );
   }
 }

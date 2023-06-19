@@ -8,6 +8,7 @@ class Emailcheck extends StatefulWidget  {
   const Emailcheck({Key? key, this.email, this.password}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _Emailcheck createState() => _Emailcheck();
 
 }
