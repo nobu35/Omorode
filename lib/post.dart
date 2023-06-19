@@ -94,70 +94,69 @@ class PostsState extends State<Posts> {
 
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title:const Text('チャット投稿'),
-        ),
-        body: Column(
-        children: [
-          Container(
-            padding:const EdgeInsets.all(32),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                // 投稿メッセージ入力
-                TextFormField(
-                  decoration:const InputDecoration(labelText: '投稿メッセージ'),
-                  // 複数行のテキスト入力
-                  keyboardType: TextInputType.multiline,
-                  // 最大3行
-                  maxLines: 3,
-                  onChanged: (String value) {
-                    setState(() {
-                      messageText = value;
-                    });
-                  },
-                ),
-                const SizedBox(height: 8),
-                Container(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('チャット投稿'),
+      ),
+      body: Column(children: [
+        Container(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              // 投稿メッセージ入力
+              TextFormField(
+                decoration: const InputDecoration(labelText: '投稿メッセージ'),
+                // 複数行のテキスト入力
+                keyboardType: TextInputType.multiline,
+                // 最大3行
+                maxLines: 3,
+                onChanged: (String value) {
+                  setState(() {
+                    messageText = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    child: Text('投稿'),
-                    onPressed: () async {
-                      DateTime timestamp = DateTime.now(); // 現在の日時
-                      print(userID);
-                      // 投稿メッセージ用ドキュメント作成
-                      await FirebaseFirestore.instance
-                          .collection('Text') // コレクションID指定
-                          .doc() // ドキュメントID自動生成
-                          .set({
-                        'TextComent': messageText,
-                        'UserID': userID,
-                        'PostTime': timestamp,
-                        'Tags':'1'
-                      });
-                      // 1つ前の画面に戻る
-                      Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) {
-                        return const App();
-                    },
-                  ),
-                );
-              }))],
-            ),
+                      child: const Text('投稿'),
+                      onPressed: () async {
+                        DateTime timestamp = DateTime.now(); // 現在の日時
+                        print(userID);
+                        // 投稿メッセージ用ドキュメント作成
+                        await FirebaseFirestore.instance
+                            .collection('Text') // コレクションID指定
+                            .doc() // ドキュメントID自動生成
+                            .set({
+                          'TextComent': messageText,
+                          'UserID': userID,
+                          'PostTime': timestamp,
+                          'Tags': '1'
+                        });
+                        // 1つ前の画面に戻る
+                        // ignore: use_build_context_synchronously
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const App();
+                            },
+                          ),
+                        );
+                      }))
+            ],
           ),
-          Container(
-            child:OutlinedButton(
+        ),
+        OutlinedButton(
             onPressed: () async {
-              final XFile? _image = await _picker.pickImage(source: ImageSource.gallery);
-              _file = File(_image!.path);
+              final XFile? image =
+                  await _picker.pickImage(source: ImageSource.gallery);
+              _file = File(image!.path);
               setState(() {});
             },
-            child: const Text('画像を選択')
-          )
-          )
-        ]),
-      );
-    }
+            child: const Text('画像を選択'))
+      ]),
+    );
   }
-
+}

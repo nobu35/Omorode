@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:omorode/login.dart';
 import 'package:omorode/post.dart';
@@ -13,11 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _State extends State<HomeScreen> {
-  final _usStates = ["ログアウト"];
-  //ログイン中のユーザー情報を取得
-  final userID = FirebaseAuth.instance.currentUser!.uid;
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +47,6 @@ class _State extends State<HomeScreen> {
         elevation: 0,
       ),
       body: const Center(child: Text('ホーム', style: TextStyle(fontSize: 32.0))),
-      backgroundColor: Colors.white,
       floatingActionButton: SpeedDial(
         icon: Icons.add,
         activeIcon: Icons.close,

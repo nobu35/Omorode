@@ -3,7 +3,9 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
-import '../apikey.dart';
+
+import 'apikey.dart';
+
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///

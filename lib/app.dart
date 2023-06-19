@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'account.dart';
 import 'home.dart';
-import 'notification.dart';
+import 'search.dart';
+import 'login.dart';
 
-//コピペです
-//「src」直下にボトムバーの設定のapp.dart
-//「screens」直下に遷移するページを入れる。
-
-//テーマの色決め(?)
+//テーマの色決め
 MaterialColor customSwatch = const MaterialColor(0xFF9CDBC5, <int, Color>{
   50: Color(0xFFF7FCFB),
   100: Color(0xFFECF9F5),
@@ -21,32 +19,44 @@ MaterialColor customSwatch = const MaterialColor(0xFF9CDBC5, <int, Color>{
   900: Color(0xFF9CDBC5),
 });
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
-        //ここで上のやつを引っ張ってくる
         primarySwatch: customSwatch,
       ),
-      home: const MyStatefulWidget(),
+      home: const config(),
     );
   }
 }
 
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
+// ignore: camel_case_types
+class config extends StatefulWidget {
+  const config({Key? key}) : super(key: key);
 
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+  State<StatefulWidget> createState() {
+    return _State();
+  }
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+class _State extends State<config> {
+  //ボタンの文字はここ
+  final _usStates = ["ログアウト"];
+  //ログイン中のユーザー情報を取得
+  final userID = FirebaseAuth.instance.currentUser!.uid;
+
   static const _screens = [
-    //移動する画面の一覧
+    //設定を共有する画面の一覧
     HomeScreen(),
     NotificationScreen(),
     AccountScreen()
@@ -63,6 +73,36 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          actions: <Widget>[
+            PopupMenuButton<String>(
+              onSelected: (String s) {
+                setState(() {});
+                FirebaseAuth.instance.signOut();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute<void>(builder: (context) => const Login()),
+                  (Route<dynamic> route) => false,
+                );
+              },
+              itemBuilder: (BuildContext context) {
+                return _usStates.map((String s) {
+                  return PopupMenuItem(
+                    value: s,
+                    child: Text(s),
+                  );
+                }).toList();
+              },
+            )
+          ],
+          centerTitle: false,
+          title: const Text('     Omorode',
+              style: TextStyle(
+                fontSize: 40,
+              )),
+          elevation: 0,
+        ),
         body: _screens[_selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,

@@ -5,11 +5,8 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Omorode'),
-      ),
-      body: const Center(child: Text('検索', style: TextStyle(fontSize: 32.0))),
+    return const Scaffold(
+      body: Center(child: Text('検索', style: TextStyle(fontSize: 32.0))),
     );
   }
 }
