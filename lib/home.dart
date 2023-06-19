@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:omorode/login.dart';
 import 'package:omorode/post.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,37 +14,6 @@ class _State extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        actions: <Widget>[
-          PopupMenuButton<String>(
-            onSelected: (String s) {
-              setState(() {});
-              //後日変更
-              FirebaseAuth.instance.signOut();
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute<void>(builder: (context) => const Login()),
-                (Route<dynamic> route) => false,
-              );
-            },
-            itemBuilder: (BuildContext context) {
-              return _usStates.map((String s) {
-                return PopupMenuItem(
-                  value: s,
-                  child: Text(s),
-                );
-              }).toList();
-            },
-          )
-        ],
-        centerTitle: false,
-        title: const Text('  Omorode',
-            style: TextStyle(
-              fontSize: 40,
-            )),
-        elevation: 0,
-      ),
       body: const Center(child: Text('ホーム', style: TextStyle(fontSize: 32.0))),
       floatingActionButton: SpeedDial(
         icon: Icons.add,
