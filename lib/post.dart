@@ -33,6 +33,7 @@ class MapPageState extends State<MapPage> {
   }
 
   void _getUserLocation() async {
+    LocationPermission permission = await Geolocator.requestPermission();
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     setState(() {
@@ -43,26 +44,24 @@ class MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
-      body: _loading
-          ?const CircularProgressIndicator()
-          : SafeArea(
-            child: Stack(
-            fit: StackFit.expand,
-        children: [
-          //googleMap表示プログラム
-          GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition:  CameraPosition(
-            target: _initialPosition,
-            zoom: 17,
-          ),
-          markers: markers,
-          myLocationEnabled: true,
-          myLocationButtonEnabled: true,
-          onLongPress: onLongPress,
-        ),
-    ])));
+    return Scaffold(
+        body: _loading
+            ? const CircularProgressIndicator()
+            : SafeArea(
+                child: Stack(fit: StackFit.expand, children: [
+                //googleMap表示プログラム
+                GoogleMap(
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(
+                    target: _initialPosition,
+                    zoom: 17,
+                  ),
+                  markers: markers,
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                  onLongPress: onLongPress,
+                ),
+              ])));
   }
 
   //マーカーを表示するためのコード
