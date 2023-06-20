@@ -12,8 +12,7 @@ class Login extends StatefulWidget {
   LoginState createState() => LoginState();
 }
 
-class LoginState extends State<Login>{
-
+class LoginState extends State<Login> {
   String infoText = "";
   String email = "";
   String pass = "";
@@ -49,19 +48,19 @@ class LoginState extends State<Login>{
                       style: const TextStyle(
                         fontSize: 15,
                       ),
-                      onChanged: (String value){
+                      onChanged: (String value) {
                         setState(() {
                           email = value;
                         });
                       },
-                      decoration:const InputDecoration(
+                      decoration: const InputDecoration(
                         //枠内の文字の色
                         labelText: "メールアドレス",
                         //クリックした時の文字の色
-                        floatingLabelStyle:
-                            TextStyle(color: Color.fromARGB(255, 102, 205, 170)),
+                        floatingLabelStyle: TextStyle(
+                            color: Color.fromARGB(255, 102, 205, 170)),
                         //paddingの設定
-                        contentPadding:  EdgeInsets.all(10), //任意の値を入れてpaddingを調節
+                        contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
                         //フォーカスしてないときの枠の設定
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -69,7 +68,7 @@ class LoginState extends State<Login>{
                           ),
                         ),
                         //フォーカスしてるときの枠の設定
-                        focusedBorder:  OutlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color.fromARGB(255, 102, 205, 170),
                           ),
@@ -88,19 +87,19 @@ class LoginState extends State<Login>{
                       style: const TextStyle(
                         fontSize: 15,
                       ),
-                      onChanged: (String value){
+                      onChanged: (String value) {
                         setState(() {
                           pass = value;
                         });
                       },
-                      decoration:const InputDecoration(
+                      decoration: const InputDecoration(
                         //枠内の文字の色
                         labelText: "パスワード",
                         //クリックした時の文字の色
-                        floatingLabelStyle:
-                            TextStyle(color: Color.fromARGB(255, 102, 205, 170)),
+                        floatingLabelStyle: TextStyle(
+                            color: Color.fromARGB(255, 102, 205, 170)),
                         //paddingの設定
-                        contentPadding:  EdgeInsets.all(10), //任意の値を入れてpaddingを調節
+                        contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
                         //フォーカスしてないときの枠の設定
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -108,7 +107,7 @@ class LoginState extends State<Login>{
                           ),
                         ),
                         //フォーカスしてるときの枠の設定
-                        focusedBorder:  OutlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color.fromARGB(255, 102, 205, 170),
                           ),
@@ -148,7 +147,7 @@ class LoginState extends State<Login>{
                                   const Color.fromARGB(255, 143, 143, 143)),
                           onPressed: () => {
                             Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
+                                .push(MaterialPageRoute(builder: (context) {
                               return const Signup();
                             }))
                           },
@@ -167,31 +166,32 @@ class LoginState extends State<Login>{
                           //押した時の設定
                           onPressed: () async {
                             try {
-                                  // メール/パスワードでユーザーログイン
-                                  final FirebaseAuth auth = FirebaseAuth.instance;
-                                    await auth.signInWithEmailAndPassword(
-                                    email: email,
-                                    password: pass,
-                                  );
-                                  //メール認証完了済みか確認
-                                  final isVerified = auth.currentUser!.emailVerified;
-                                  //認証済みでない場合ログアウト
-                                  if (!isVerified){
-                                    FirebaseAuth.instance.signOut();
-                                    infoText = "メール認証を完了してください";
-                                  //認証済みの場合はホーム画面に遷移
-                                  }else{
-                                    if (!mounted) return;
-                                    Navigator.of(context).pushReplacement
-                                      (MaterialPageRoute(builder: (context) {
-                                      return const App();
-                                      }));
-                                  }
-                                  }catch(e){
-                                    setState(() {
-                                      infoText = "登録に失敗しました：${e.toString()}";
-                                    });
-                                  }
+                              // メール/パスワードでユーザーログイン
+                              final FirebaseAuth auth = FirebaseAuth.instance;
+                              await auth.signInWithEmailAndPassword(
+                                email: email,
+                                password: pass,
+                              );
+                              //メール認証完了済みか確認
+                              final isVerified =
+                                  auth.currentUser!.emailVerified;
+                              //認証済みでない場合ログアウト
+                              if (!isVerified) {
+                                FirebaseAuth.instance.signOut();
+                                infoText = "メール認証を完了してください";
+                                //認証済みの場合はホーム画面に遷移
+                              } else {
+                                if (!mounted) return;
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(builder: (context) {
+                                  return const App();
+                                }));
+                              }
+                            } catch (e) {
+                              setState(() {
+                                infoText = "登録に失敗しました：${e.toString()}";
+                              });
+                            }
                           },
                           //ボタンの中のテキスト
                           child: const Text(
