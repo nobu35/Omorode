@@ -17,7 +17,6 @@ class LoginState extends State<Login> {
   String email = "";
   String pass = "";
   String isVerified = "";
-  String errorM = "";
 
   @override
   Widget build(BuildContext context) {
