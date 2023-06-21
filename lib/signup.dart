@@ -38,7 +38,7 @@ class SignupState extends State<Signup> {
                                 fontSize: 50,
                                 color: Color.fromARGB(255, 102, 205, 170)))),
                     //余白
-                    const Padding(padding: EdgeInsets.only(top: 170)),
+                    const Padding(padding: EdgeInsets.only(top: 100)),
                     //各種必要事項の入力窓
                     //メールアドレス
                     TextField(
@@ -220,9 +220,8 @@ class SignupState extends State<Signup> {
                             )),
                       ],
                     ),
-                    Text(infoText, style: const TextStyle(fontSize: 20)),
                     //余白
-                    const Padding(padding: EdgeInsets.only(top: 50)),
+                    const Padding(padding: EdgeInsets.only(top: 10)),
                     //ボタンのグループ
                     ButtonBar(
                       alignment: MainAxisAlignment.spaceBetween,
@@ -281,14 +280,67 @@ class SignupState extends State<Signup> {
                                       builder: (context) => Emailcheck(
                                           email: email, password: password),
                                     ));
-                              } catch (e) {
-                                // ユーザー登録に失敗した場合
-                                setState(() {
-                                  infoText = "登録に失敗しました\n${e.toString()}";
-                                });
+                              } on FirebaseAuthException catch (e) {
+                                switch (e.code) {
+                                  case "weak-password":
+                                    setState(() {
+                                      infoText = "登録に失敗しました\nパスワードは6文字以上です";
+                                    });
+                                    break;
+                                  case "invalid-email":
+                                  case "missing-email":
+                                    setState(() {
+                                      infoText = "登録に失敗しました\n無効なメールアドレスです";
+                                    });
+                                    break;
+                                  case "email-already-in-use":
+                                  case "account-exists-with-different-credential":
+                                    setState(() {
+                                      infoText = "登録に失敗しました\n既に登録済みのメールアドレスです";
+                                    });
+                                    break;
+                                  case "operation-not-allowed":
+                                    setState(() {
+                                      infoText = "登録に失敗しました\nファイヤーベース問題発生";
+                                    });
+                                    break;
+                                  case "user-disabled":
+                                  case "invalid-credential":
+                                    setState(() {
+                                      infoText = "登録に失敗しました\nユーザーが無効になっています";
+                                    });
+                                    break;
+                                  case "user-not-found":
+                                    setState(() {
+                                      infoText = "登録に失敗しました\nユーザーが存在しません";
+                                    });
+                                    break;
+                                  case "wrong-password":
+                                    setState(() {
+                                      infoText = "登録に失敗しました\nパスワードが間違っています";
+                                    });
+                                    break;
+                                  case "invalid-verification-code":
+                                    setState(() {
+                                      infoText = "登録に失敗しました\n検証コードが無効になっています";
+                                    });
+                                    break;
+                                  case "invalid-verification-id":
+                                    setState(() {
+                                      infoText = "登録に失敗しました\n検証IDが無効になっています";
+                                    });
+                                    break;
+                                  default:
+                                    setState(() {
+                                      infoText = "想定外のエラーが発生しました";
+                                    });
+                                    break;
+                                }
                               }
                             } else {
-                              infoText = "パスワードが一致しません";
+                              setState(() {
+                                infoText = "登録に失敗しました\nパスワードが一致しません";
+                              });
                             }
                           },
                           child: const Text(
@@ -298,6 +350,14 @@ class SignupState extends State<Signup> {
                         ),
                       ],
                     ),
+                    SizedBox(
+                        width: double.infinity,
+                        child: Text(infoText,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              color: Colors.red,
+                            )))
                   ],
                 ))));
   }

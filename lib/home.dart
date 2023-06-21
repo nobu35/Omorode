@@ -21,9 +21,8 @@ class _State extends State<HomeScreen> {
         backgroundColor: const Color.fromARGB(255, 102, 205, 170),
         closeManually: true,
         onPress: () {
-          Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) {
-          return const MapPage();
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return const MapPage();
           }));
         }, //短押し処理
         children: [
@@ -31,22 +30,19 @@ class _State extends State<HomeScreen> {
             child: const Icon(Icons.share_rounded),
             label: '共有',
             backgroundColor: Colors.blue,
-            onTap: () {
-            },
+            onTap: () {},
           ),
           SpeedDialChild(
             child: const Icon(Icons.mail),
             label: 'メール',
             backgroundColor: Colors.blue,
-            onTap: () {
-            },
+            onTap: () {},
           ),
           SpeedDialChild(
             child: const Icon(Icons.copy),
             label: 'コピー',
             backgroundColor: Colors.blue,
-            onTap: () {
-            },
+            onTap: () {},
           ),
         ], //長押し処理
       ),

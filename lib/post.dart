@@ -33,7 +33,6 @@ class MapPageState extends State<MapPage> {
   }
 
   void _getUserLocation() async {
-    LocationPermission permission = await Geolocator.requestPermission();
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     setState(() {

@@ -17,6 +17,7 @@ class LoginState extends State<Login> {
   String email = "";
   String pass = "";
   String isVerified = "";
+  String errorM = "";
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +116,7 @@ class LoginState extends State<Login> {
                       ),
                     ),
                     //余白
-                    const Padding(padding: EdgeInsets.only(top: 120)),
+                    const Padding(padding: EdgeInsets.only(top: 50)),
                     //パスワードを忘れた人用ボタン
                     TextButton(
                       onPressed: () => {
@@ -187,10 +188,62 @@ class LoginState extends State<Login> {
                                   return const App();
                                 }));
                               }
-                            } catch (e) {
-                              setState(() {
-                                infoText = "登録に失敗しました：${e.toString()}";
-                              });
+                            } on FirebaseAuthException catch (e) {
+                              switch (e.code) {
+                                case "weak-password":
+                                  setState(() {
+                                    infoText = "登録に失敗しました\nパスワードは6文字以上です";
+                                  });
+                                  break;
+                                case "invalid-email":
+                                case "missing-email":
+                                  setState(() {
+                                    infoText = "登録に失敗しました\n無効なメールアドレスです";
+                                  });
+                                  break;
+                                case "email-already-in-use":
+                                case "account-exists-with-different-credential":
+                                  setState(() {
+                                    infoText = "登録に失敗しました\n既に登録済みのメールアドレスです";
+                                  });
+                                  break;
+                                case "operation-not-allowed":
+                                  setState(() {
+                                    infoText = "登録に失敗しました\nファイヤーベース問題発生";
+                                  });
+                                  break;
+                                case "user-disabled":
+                                case "invalid-credential":
+                                  setState(() {
+                                    infoText = "登録に失敗しました\nユーザーが無効になっています";
+                                  });
+                                  break;
+                                case "user-not-found":
+                                  setState(() {
+                                    infoText = "登録に失敗しました\nユーザーが存在しません";
+                                  });
+                                  break;
+                                case "wrong-password":
+                                  setState(() {
+                                    infoText = "登録に失敗しました\nパスワードが間違っています";
+                                  });
+                                  break;
+                                case "invalid-verification-code":
+                                  setState(() {
+                                    infoText = "登録に失敗しました\n検証コードが無効になっています";
+                                  });
+                                  break;
+                                case "invalid-verification-id":
+                                  setState(() {
+                                    infoText = "登録に失敗しました\n検証IDが無効になっています";
+                                  });
+                                  break;
+                                default:
+                                  setState(() {
+                                    infoText = "想定外のエラーが発生しました";
+                                  });
+                                  break;
+                              }
                             }
                           },
                           //ボタンの中のテキスト
@@ -201,6 +254,14 @@ class LoginState extends State<Login> {
                         ),
                       ],
                     ),
+                    SizedBox(
+                        width: double.infinity,
+                        child: Text(infoText,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              color: Colors.red,
+                            )))
                   ],
                 ))));
   }
