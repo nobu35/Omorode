@@ -57,8 +57,7 @@ class LoginState extends State<Login> {
                         //枠内の文字の色
                         labelText: "メールアドレス",
                         //クリックした時の文字の色
-                        floatingLabelStyle: TextStyle(
-                            color: Color.fromARGB(255, 102, 205, 170)),
+                        floatingLabelStyle: TextStyle(color: Colors.black),
                         //paddingの設定
                         contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
                         //フォーカスしてないときの枠の設定
@@ -96,8 +95,7 @@ class LoginState extends State<Login> {
                         //枠内の文字の色
                         labelText: "パスワード",
                         //クリックした時の文字の色
-                        floatingLabelStyle: TextStyle(
-                            color: Color.fromARGB(255, 102, 205, 170)),
+                        floatingLabelStyle: TextStyle(color: Colors.black),
                         //paddingの設定
                         contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
                         //フォーカスしてないときの枠の設定

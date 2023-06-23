@@ -59,8 +59,7 @@ class SignupState extends State<Signup> {
                         //枠内の文字の色
                         labelText: "メールアドレス",
                         //クリックした時の文字の色
-                        floatingLabelStyle: TextStyle(
-                            color: Color.fromARGB(255, 102, 205, 170)),
+                        floatingLabelStyle: TextStyle(color: Colors.black),
                         //paddingの設定
                         contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
                         //フォーカスしてないときの枠の設定
@@ -98,8 +97,7 @@ class SignupState extends State<Signup> {
                         //枠内の文字の色
                         labelText: "ユーザーネーム",
                         //クリックした時の文字の色
-                        floatingLabelStyle: TextStyle(
-                            color: Color.fromARGB(255, 102, 205, 170)),
+                        floatingLabelStyle: TextStyle(color: Colors.black),
                         //paddingの設定
                         contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
                         //フォーカスしてないときの枠の設定
@@ -137,8 +135,7 @@ class SignupState extends State<Signup> {
                         //枠内の文字の色
                         labelText: "パスワード",
                         //クリックした時の文字の色
-                        floatingLabelStyle: TextStyle(
-                            color: Color.fromARGB(255, 102, 205, 170)),
+                        floatingLabelStyle: TextStyle(color: Colors.black),
                         //paddingの設定
                         contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
                         //フォーカスしてないときの枠の設定
@@ -176,8 +173,7 @@ class SignupState extends State<Signup> {
                         //枠内の文字の色
                         labelText: "パスワード(確認用)",
                         //クリックした時の文字の色
-                        floatingLabelStyle: TextStyle(
-                            color: Color.fromARGB(255, 102, 205, 170)),
+                        floatingLabelStyle: TextStyle(color: Colors.black),
                         //paddingの設定
                         contentPadding: EdgeInsets.all(10), //任意の値を入れてpaddingを調節
                         //フォーカスしてないときの枠の設定
