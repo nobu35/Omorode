@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:omorode/post.dart';
+import 'package:omorode/addItem.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -22,6 +23,7 @@ class _State extends State<HomeScreen> {
         closeManually: true,
         onPress: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            //プラスマークの遷移先
             return const MapPage();
           }));
         }, //短押し処理
