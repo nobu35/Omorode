@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +8,7 @@ class ItemList extends StatelessWidget {
     _stream = _reference.snapshots();
   }
 
-  CollectionReference _reference =
+  final CollectionReference _reference =
       FirebaseFirestore.instance.collection('Text');
 
   //_reference.get()  ---> returns Future<QuerySnapshot>
@@ -17,7 +19,7 @@ class ItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Items'),
+        title: const Text('Items'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _stream,
@@ -60,7 +62,7 @@ class ItemList extends StatelessWidget {
           }
 
           //Show loader
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         },
       ), //Display a list // Add a FutureBuilder
     );

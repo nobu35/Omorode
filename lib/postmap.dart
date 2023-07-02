@@ -1,11 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:omorode/app.dart';
-import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'addItem.dart';
+import 'app.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -45,6 +42,33 @@ class MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Color.fromARGB(255, 102, 205, 170),
+              ),
+              onPressed: () => {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return const App();
+                }))
+              },
+            ),
+            ElevatedButton(
+              onPressed: () => {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return const AddItem();
+                }))
+              },
+              child: Text(
+                "次へ",
+              ),
+            ),
+          ],
+        ),
         body: _loading
             ? const CircularProgressIndicator()
             : SafeArea(
