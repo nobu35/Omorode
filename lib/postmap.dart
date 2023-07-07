@@ -19,6 +19,7 @@ class MapPageState extends State<MapPage> {
   late LatLng _initialPosition;
   late bool _loading;
 
+  //マーカー
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
@@ -44,7 +45,7 @@ class MapPageState extends State<MapPage> {
       print('lat.longitude: $longitude');
     });
   }
-
+ 
   @override
   void initState() {
     super.initState();

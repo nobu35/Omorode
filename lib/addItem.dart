@@ -1,18 +1,14 @@
-import 'dart:async';
+// ignore_for_file: file_names
+
 import 'dart:io';
-import 'package:meta/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:omorode/app.dart';
-import 'package:omorode/home.dart';
-import 'package:omorode/postmap.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'firebase_options.dart';
-import 'package:omorode/Listpage.dart';
+import 'Listpage.dart';
+import 'app.dart';
 
 class AddItem extends StatefulWidget {
   final GeoPoint geoPoint;
@@ -36,7 +32,7 @@ class _AddItemState extends State<AddItem> {
 
   GlobalKey<FormState> key = GlobalKey();
 
-  CollectionReference _reference =
+  final CollectionReference _reference =
       FirebaseFirestore.instance.collection('Text');
 
   String imageUrl = '';
@@ -57,8 +53,8 @@ class _AddItemState extends State<AddItem> {
             children: [
               TextFormField(
                 controller: _controllerName,
-                decoration:
-                    InputDecoration(hintText: 'Enter the name of the item'),
+                decoration: const InputDecoration(
+                    hintText: 'Enter the name of the item'),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the item name';
@@ -96,9 +92,9 @@ class _AddItemState extends State<AddItem> {
                     late File? image = null;
                     image == null
                         ? Container()
-                        : Container(
-                            child: Image.file(image, fit: BoxFit.cover),
+                        : SizedBox(
                             height: 100.0,
+                            child: Image.file(image, fit: BoxFit.cover),
                           );
 
                     if (file == null) return;
@@ -129,12 +125,12 @@ class _AddItemState extends State<AddItem> {
                       //Some error occurred
                     }
                   },
-                  icon: Icon(Icons.camera_alt)),
+                  icon: const Icon(Icons.camera_alt)),
               ElevatedButton(
                   onPressed: () async {
                     if (imageUrl.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Please upload an image')));
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Please upload an image')));
 
                       return;
                     }
@@ -164,7 +160,7 @@ class _AddItemState extends State<AddItem> {
                       );
 
                       //投稿完了時ホームに戻る
-                      Future.delayed(Duration(seconds: 2), () {
+                      Future.delayed(const Duration(seconds: 2), () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context) {
                           return const App();
@@ -172,7 +168,7 @@ class _AddItemState extends State<AddItem> {
                       });
                     }
                   },
-                  child: Text('保存')),
+                  child: const Text('保存')),
               ElevatedButton(
                   onPressed: () {
                     Navigator.of(context)
@@ -180,7 +176,7 @@ class _AddItemState extends State<AddItem> {
                       return ItemList();
                     }));
                   },
-                  child: Text('ListPage'))
+                  child: const Text('ListPage'))
             ],
           ),
         ),
