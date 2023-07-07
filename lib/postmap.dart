@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:omorode/app.dart';
-import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'addItem.dart';
+import 'app.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -23,6 +21,28 @@ class MapPageState extends State<MapPage> {
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+  }
+
+  GeoPoint convertLatLngToGeoPoint(LatLng latLng) {
+    double latitude = latLng.latitude;
+    double longitude = latLng.longitude;
+    return GeoPoint(latitude, longitude);
+  }
+
+  void onLongPress(LatLng latLng) {
+    GeoPoint geoPoint = convertLatLngToGeoPoint(latLng);
+    setState(() {
+      markers.add(Marker(
+        markerId: MarkerId(latLng.toString()),
+        position: latLng,
+      ));
+      print('latLng: $latLng');
+
+      double latitude = latLng.latitude;
+      double longitude = latLng.longitude;
+      print('lat.latitude: $latitude');
+      print('lat.longitude: $longitude');
+    });
   }
 
   @override
@@ -45,6 +65,36 @@ class MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Color.fromARGB(255, 102, 205, 170),
+              ),
+              onPressed: () => {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return const App();
+                }))
+              },
+            ),
+            ElevatedButton(
+              onPressed: () => {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  GeoPoint initialGeoPoint =
+                      convertLatLngToGeoPoint(_initialPosition);
+
+                  return AddItem(geoPoint: initialGeoPoint);
+                }))
+              },
+              child: Text(
+                "次へ",
+              ),
+            ),
+          ],
+        ),
         body: _loading
             ? const CircularProgressIndicator()
             : SafeArea(
@@ -62,16 +112,5 @@ class MapPageState extends State<MapPage> {
                   onLongPress: onLongPress,
                 ),
               ])));
-  }
-
-  //マーカーを表示するためのコード
-  void onLongPress(LatLng latLng) {
-    setState(() {
-      markers.add(Marker(
-        markerId: MarkerId(latLng.toString()),
-        position: latLng,
-      ));
-      print(latLng);
-    });
   }
 }

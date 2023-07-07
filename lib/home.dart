@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:omorode/post.dart';
+import 'package:omorode/postmap.dart';
 import 'package:omorode/addItem.dart';
 
 class HomeScreen extends StatefulWidget {
