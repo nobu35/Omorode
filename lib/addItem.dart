@@ -4,13 +4,15 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'Listpage.dart';
 import 'app.dart';
 
 class AddItem extends StatefulWidget {
-  const AddItem({Key? key}) : super(key: key);
+  final GeoPoint geoPoint;
+  const AddItem({Key? key, required this.geoPoint}) : super(key: key);
 
   @override
   State<AddItem> createState() => _AddItemState();
@@ -18,6 +20,15 @@ class AddItem extends StatefulWidget {
 
 class _AddItemState extends State<AddItem> {
   TextEditingController _controllerName = TextEditingController();
+  late double latitude;
+  late double longitude;
+
+  @override
+  void initState() {
+    super.initState();
+    latitude = widget.geoPoint.latitude;
+    longitude = widget.geoPoint.longitude;
+  }
 
   GlobalKey<FormState> key = GlobalKey();
 
@@ -73,6 +84,9 @@ class _AddItemState extends State<AddItem> {
                         source: ImageSource.gallery);
                     print('${file?.path}');
                     print(' ${file?.name}');
+                    print(latitude);
+                    print(longitude);
+                    print(GeoPoint(latitude, longitude));
                     String FileName = file?.name ?? "";
 
                     late File? image = null;
@@ -130,6 +144,8 @@ class _AddItemState extends State<AddItem> {
                         'image': imageUrl,
                         'uid': userID,
                         'posttime': Timestamp.fromDate(timestamp),
+                        'lat': latitude,
+                        'lng': longitude,
 
                         //sjb;hoaein
                       };

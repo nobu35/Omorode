@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -18,10 +19,33 @@ class MapPageState extends State<MapPage> {
   late LatLng _initialPosition;
   late bool _loading;
 
+  //マーカー
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
 
+  GeoPoint convertLatLngToGeoPoint(LatLng latLng) {
+    double latitude = latLng.latitude;
+    double longitude = latLng.longitude;
+    return GeoPoint(latitude, longitude);
+  }
+
+  void onLongPress(LatLng latLng) {
+    GeoPoint geoPoint = convertLatLngToGeoPoint(latLng);
+    setState(() {
+      markers.add(Marker(
+        markerId: MarkerId(latLng.toString()),
+        position: latLng,
+      ));
+      print('latLng: $latLng');
+
+      double latitude = latLng.latitude;
+      double longitude = latLng.longitude;
+      print('lat.latitude: $latitude');
+      print('lat.longitude: $longitude');
+    });
+  }
+ 
   @override
   void initState() {
     super.initState();
@@ -60,7 +84,10 @@ class MapPageState extends State<MapPage> {
               onPressed: () => {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) {
-                  return const AddItem();
+                  GeoPoint initialGeoPoint =
+                      convertLatLngToGeoPoint(_initialPosition);
+
+                  return AddItem(geoPoint: initialGeoPoint);
                 }))
               },
               child: Text(
@@ -86,16 +113,5 @@ class MapPageState extends State<MapPage> {
                   onLongPress: onLongPress,
                 ),
               ])));
-  }
-
-  //マーカーを表示するためのコード
-  void onLongPress(LatLng latLng) {
-    setState(() {
-      markers.add(Marker(
-        markerId: MarkerId(latLng.toString()),
-        position: latLng,
-      ));
-      print(latLng);
-    });
   }
 }
