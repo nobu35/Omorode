@@ -14,89 +14,98 @@ class HomeScreen extends StatefulWidget {
 
 class _State extends State<HomeScreen> {
   late Stream<QuerySnapshot> _stream;
+  List<Map<String, dynamic>> items = []; // 追加: データを保持するリスト
 
   @override
   void initState() {
     super.initState();
-    _stream =
-        FirebaseFirestore.instance.collection('Text').snapshots(); // コレクション名を指定
+    _stream = FirebaseFirestore.instance.collection('Text').snapshots();
+    _loadData(); // 追加: データのロード
+  }
+
+  Future<void> _loadData() async {
+    try {
+      final querySnapshot =
+          await FirebaseFirestore.instance.collection('Text').get();
+      final documents = querySnapshot.docs;
+
+      // 追加: uidを使ってUserコレクションからUserNameを取得
+      for (final document in documents) {
+        final uid = document['uid'];
+        final userDoc =
+            await FirebaseFirestore.instance.collection('User').doc(uid).get();
+        final userName = userDoc['UserName'];
+
+        final item = {
+          'coment': document['coment'],
+          'userName': userName, // userNameフィールドを追加
+          'image': document['image'],
+        };
+
+        items.add(item);
+      }
+
+      setState(() {}); // データが更新されたことを反映させる
+    } catch (error) {
+      print('エラーが発生しました: $error');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<QuerySnapshot>(
-        stream: _stream,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          // データがエラーを含む場合
-          if (snapshot.hasError) {
-            return Center(child: Text('エラーが発生しました: ${snapshot.error}'));
-          }
-
-          // データが存在する場合
-          if (snapshot.hasData) {
-            QuerySnapshot querySnapshot = snapshot.data as QuerySnapshot;
-            List<QueryDocumentSnapshot> documents = querySnapshot.docs;
-            List<Map> items = documents.map((e) => e.data() as Map).toList();
-
-            return ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (BuildContext context, int index) {
-                Map thisItem = items[index];
-                return Container(
-                  padding: const EdgeInsets.only(
-                      left: 5, top: 0, right: 5, bottom: 1),
-                  child: Column(
-                    children: [
-                      Row(
+      body: ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (BuildContext context, int index) {
+          final item = items[index];
+          return Container(
+            padding:
+                const EdgeInsets.only(left: 5, top: 0, right: 5, bottom: 1),
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${thisItem['coment']}',
-                                  style: const TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(height: 4.0),
-                                Text(
-                                  '${thisItem['uid']}',
-                                  style: const TextStyle(fontSize: 14.0),
-                                ),
-                              ],
-                            ),
+                          Text(
+                            '${item['userName']}',
+                            style: const TextStyle(
+                                fontSize: 16.0, fontWeight: FontWeight.bold),
                           ),
-                          const SizedBox(width: 8.0),
-                          SizedBox(
-                            width: 150,
-                            height: 100,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: thisItem.containsKey('image')
-                                  ? Image.network(
-                                      '${thisItem['image']}',
-                                      fit: BoxFit.contain,
-                                    )
-                                  : Container(),
-                            ),
+                          const SizedBox(height: 4.0),
+                          Text(
+                            '${item['coment']}', // userNameを表示
+                            style: const TextStyle(fontSize: 14.0),
                           ),
                         ],
                       ),
-                      const Divider(
-                        color: Colors.black,
-                        height: 10,
-                      ), // ここで区切り線を追加
-                    ],
-                  ),
-                );
-              },
-            );
-          }
-
-          return const Center(child: CircularProgressIndicator());
+                    ),
+                    const SizedBox(width: 8.0),
+                    SizedBox(
+                      width: 150,
+                      height: 100,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: item.containsKey('image')
+                            ? Image.network(
+                                '${item['image']}',
+                                fit: BoxFit.contain,
+                              )
+                            : Container(),
+                      ),
+                    ),
+                  ],
+                ),
+                const Divider(
+                  color: Colors.black,
+                  height: 10,
+                ),
+              ],
+            ),
+          );
         },
       ),
       floatingActionButton: SpeedDial(
