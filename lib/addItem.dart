@@ -30,11 +30,11 @@ class AddItem extends StatefulWidget {
 }
 
 class _AddItemState extends State<AddItem> {
-  TextEditingController _controllerName = TextEditingController();
+  final TextEditingController _controllerName = TextEditingController();
 
   GlobalKey<FormState> key = GlobalKey();
 
-  CollectionReference _reference =
+  final CollectionReference _reference =
       FirebaseFirestore.instance.collection('Text');
 
   String imageUrl = '';
@@ -47,7 +47,7 @@ class _AddItemState extends State<AddItem> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add an item'),
+        title: const Text('Add an item'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -57,8 +57,8 @@ class _AddItemState extends State<AddItem> {
             children: [
               TextFormField(
                 controller: _controllerName,
-                decoration:
-                    InputDecoration(hintText: 'Enter the name of the item'),
+                decoration: const InputDecoration(
+                    hintText: 'Enter the name of the item'),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the item name';
@@ -126,9 +126,9 @@ class _AddItemState extends State<AddItem> {
                     late File? image = null;
                     image == null
                         ? Container()
-                        : Container(
-                            child: Image.file(image, fit: BoxFit.cover),
+                        : SizedBox(
                             height: 100.0,
+                            child: Image.file(image, fit: BoxFit.cover),
                           );
 
                     if (file == null) return;
@@ -159,12 +159,12 @@ class _AddItemState extends State<AddItem> {
                       //Some error occurred
                     }
                   },
-                  icon: Icon(Icons.camera_alt)),
+                  icon: const Icon(Icons.camera_alt)),
               ElevatedButton(
                   onPressed: () async {
                     if (imageUrl.isEmpty) {
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text('画像を選択してください')));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('画像を選択してください')));
 
                       return;
                     }
@@ -182,7 +182,7 @@ class _AddItemState extends State<AddItem> {
                         'posttime': Timestamp.fromDate(timestamp),
                         'lat': latitude,
                         'lng': longitude,
-                        'tag1': selectedFilterIndexes.length > 0
+                        'tag1': selectedFilterIndexes.isNotEmpty
                             ? items[selectedFilterIndexes[0]]
                             : null,
                         'tag2': selectedFilterIndexes.length > 1
@@ -208,7 +208,7 @@ class _AddItemState extends State<AddItem> {
                       );
 
                       //投稿完了時ホームに戻る
-                      Future.delayed(Duration(seconds: 2), () {
+                      Future.delayed(const Duration(seconds: 2), () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context) {
                           return const App();
@@ -216,7 +216,7 @@ class _AddItemState extends State<AddItem> {
                       });
                     }
                   },
-                  child: Text('保存')),
+                  child: const Text('保存')),
               ElevatedButton(
                   onPressed: () {
                     Navigator.of(context)
@@ -224,7 +224,7 @@ class _AddItemState extends State<AddItem> {
                       return ItemList();
                     }));
                   },
-                  child: Text('ListPage'))
+                  child: const Text('ListPage'))
             ],
           ),
         ),

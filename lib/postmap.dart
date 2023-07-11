@@ -71,7 +71,7 @@ class MapPageState extends State<MapPage> {
         appBar: AppBar(
           actions: [
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back,
                 color: Color.fromARGB(255, 102, 205, 170),
               ),
@@ -91,16 +91,16 @@ class MapPageState extends State<MapPage> {
                   }));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('座標が選択されていません')),
+                    const SnackBar(content: Text('座標が選択されていません')),
                   );
                 }
               },
-              child: Text(
+              child: const Text(
                 "次へ",
               ),
             ),
             IconButton(
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
               onPressed: deleteMarkers,
             )
           ],
