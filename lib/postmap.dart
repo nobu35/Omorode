@@ -43,19 +43,8 @@ class MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.white,
           actions: [
-            IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Color.fromARGB(255, 102, 205, 170),
-              ),
-              onPressed: () => {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
-                  return const App();
-                }))
-              },
-            ),
             ElevatedButton(
               onPressed: () => {
                 Navigator.of(context)
@@ -63,6 +52,12 @@ class MapPageState extends State<MapPage> {
                   return const AddItem();
                 }))
               },
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30), // 角の半径を指定
+                ),
+                minimumSize: Size(150, 10), // 幅と高さを指定
+              ),
               child: Text(
                 "次へ",
               ),
