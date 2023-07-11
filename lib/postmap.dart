@@ -18,20 +18,21 @@ class MapPageState extends State<MapPage> {
   final Set<Marker> markers = {};
   late LatLng _initialPosition;
   late bool _loading;
+  LatLng? latLng;
+
+  void deleteMarkers() {
+    setState(() {
+      markers.clear();
+      latLng = null;
+    });
+  }
 
   //マーカー
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
 
-  GeoPoint convertLatLngToGeoPoint(LatLng latLng) {
-    double latitude = latLng.latitude;
-    double longitude = latLng.longitude;
-    return GeoPoint(latitude, longitude);
-  }
-
   void onLongPress(LatLng latLng) {
-    GeoPoint geoPoint = convertLatLngToGeoPoint(latLng);
     setState(() {
       markers.add(Marker(
         markerId: MarkerId(latLng.toString()),
@@ -43,9 +44,10 @@ class MapPageState extends State<MapPage> {
       double longitude = latLng.longitude;
       print('lat.latitude: $latitude');
       print('lat.longitude: $longitude');
+      this.latLng = latLng;
     });
   }
- 
+
   @override
   void initState() {
     super.initState();
@@ -81,19 +83,26 @@ class MapPageState extends State<MapPage> {
               },
             ),
             ElevatedButton(
-              onPressed: () => {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
-                  GeoPoint initialGeoPoint =
-                      convertLatLngToGeoPoint(_initialPosition);
-
-                  return AddItem(geoPoint: initialGeoPoint);
-                }))
+              onPressed: () {
+                if (latLng != null) {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return AddItem(latLng: latLng!);
+                  }));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('座標が選択されていません')),
+                  );
+                }
               },
               child: Text(
                 "次へ",
               ),
             ),
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: deleteMarkers,
+            )
           ],
         ),
         body: _loading

@@ -1,18 +1,29 @@
-// ignore_for_file: file_names
-
+import 'dart:async';
 import 'dart:io';
+import 'package:meta/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:omorode/app.dart';
+import 'package:omorode/home.dart';
+import 'package:omorode/postmap.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'Listpage.dart';
-import 'app.dart';
+import 'firebase_options.dart';
+import 'package:omorode/Listpage.dart';
 
 class AddItem extends StatefulWidget {
-  final GeoPoint geoPoint;
-  const AddItem({Key? key, required this.geoPoint}) : super(key: key);
+  final LatLng latLng;
+
+  const AddItem({Key? key, required this.latLng}) : super(key: key);
+
+  LatLng ConvertlatLng(LatLng latLng) {
+    double latitude = latLng.latitude;
+    double longitude = latLng.longitude;
+    return LatLng(latitude, longitude);
+  }
 
   @override
   State<AddItem> createState() => _AddItemState();
@@ -20,24 +31,17 @@ class AddItem extends StatefulWidget {
 
 class _AddItemState extends State<AddItem> {
   TextEditingController _controllerName = TextEditingController();
-  late double latitude;
-  late double longitude;
-
-  @override
-  void initState() {
-    super.initState();
-    latitude = widget.geoPoint.latitude;
-    longitude = widget.geoPoint.longitude;
-  }
 
   GlobalKey<FormState> key = GlobalKey();
 
-  final CollectionReference _reference =
+  CollectionReference _reference =
       FirebaseFirestore.instance.collection('Text');
 
   String imageUrl = '';
   final userID = FirebaseAuth.instance.currentUser!.uid;
   String uid = '';
+  List<int> selectedFilterIndexes = [];
+  final items = ['峠道', '景色が綺麗', 'ドライブデート', '道が綺麗', '海沿い', '夜景', 'フォトスポット'];
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +57,8 @@ class _AddItemState extends State<AddItem> {
             children: [
               TextFormField(
                 controller: _controllerName,
-                decoration: const InputDecoration(
-                    hintText: 'Enter the name of the item'),
+                decoration:
+                    InputDecoration(hintText: 'Enter the name of the item'),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the item name';
@@ -63,6 +67,33 @@ class _AddItemState extends State<AddItem> {
                   return null;
                 },
               ),
+              Wrap(
+                  spacing: 8.0,
+                  children: List<Widget>.generate(7, (index) {
+                    return FilterChip(
+                        backgroundColor: Colors.grey,
+                        label: Text(items[index]),
+                        selected: selectedFilterIndexes.contains(index),
+                        selectedColor: Colors.white,
+                        onSelected: (bool selected) {
+                          setState(
+                            () {
+                              if (selected) {
+                                if (selectedFilterIndexes.length < 4) {
+                                  selectedFilterIndexes.add(index);
+                                } else {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text('選択できるタグは最大4つです'),
+                                  ));
+                                }
+                              } else {
+                                selectedFilterIndexes.remove(index);
+                              }
+                            },
+                          );
+                        });
+                  })),
               IconButton(
                   onPressed: () async {
                     /*
@@ -84,17 +115,20 @@ class _AddItemState extends State<AddItem> {
                         source: ImageSource.gallery);
                     print('${file?.path}');
                     print(' ${file?.name}');
+
+                    double latitude = widget.latLng.latitude;
+                    double longitude = widget.latLng.longitude;
                     print(latitude);
                     print(longitude);
-                    print(GeoPoint(latitude, longitude));
+
                     String FileName = file?.name ?? "";
 
                     late File? image = null;
                     image == null
                         ? Container()
-                        : SizedBox(
-                            height: 100.0,
+                        : Container(
                             child: Image.file(image, fit: BoxFit.cover),
+                            height: 100.0,
                           );
 
                     if (file == null) return;
@@ -125,12 +159,12 @@ class _AddItemState extends State<AddItem> {
                       //Some error occurred
                     }
                   },
-                  icon: const Icon(Icons.camera_alt)),
+                  icon: Icon(Icons.camera_alt)),
               ElevatedButton(
                   onPressed: () async {
                     if (imageUrl.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text('Please upload an image')));
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(content: Text('画像を選択してください')));
 
                       return;
                     }
@@ -138,6 +172,8 @@ class _AddItemState extends State<AddItem> {
                     if (key.currentState!.validate()) {
                       String itemName = _controllerName.text;
                       DateTime timestamp = DateTime.now();
+                      double latitude = widget.latLng.latitude;
+                      double longitude = widget.latLng.longitude;
                       //Create a Map of data
                       Map<String, dynamic> dataToSend = {
                         'coment': itemName,
@@ -146,6 +182,18 @@ class _AddItemState extends State<AddItem> {
                         'posttime': Timestamp.fromDate(timestamp),
                         'lat': latitude,
                         'lng': longitude,
+                        'tag1': selectedFilterIndexes.length > 0
+                            ? items[selectedFilterIndexes[0]]
+                            : null,
+                        'tag2': selectedFilterIndexes.length > 1
+                            ? items[selectedFilterIndexes[1]]
+                            : null,
+                        'tag3': selectedFilterIndexes.length > 2
+                            ? items[selectedFilterIndexes[2]]
+                            : null,
+                        'tag4': selectedFilterIndexes.length > 3
+                            ? items[selectedFilterIndexes[3]]
+                            : null,
 
                         //sjb;hoaein
                       };
@@ -160,7 +208,7 @@ class _AddItemState extends State<AddItem> {
                       );
 
                       //投稿完了時ホームに戻る
-                      Future.delayed(const Duration(seconds: 2), () {
+                      Future.delayed(Duration(seconds: 2), () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context) {
                           return const App();
@@ -168,7 +216,7 @@ class _AddItemState extends State<AddItem> {
                       });
                     }
                   },
-                  child: const Text('保存')),
+                  child: Text('保存')),
               ElevatedButton(
                   onPressed: () {
                     Navigator.of(context)
@@ -176,7 +224,7 @@ class _AddItemState extends State<AddItem> {
                       return ItemList();
                     }));
                   },
-                  child: const Text('ListPage'))
+                  child: Text('ListPage'))
             ],
           ),
         ),
