@@ -48,7 +48,7 @@ class ItemList extends StatelessWidget {
                   return ListTile(
                     title: Text('${thisItem['coment']}'),
                     subtitle: Text('${thisItem['uid']}'),
-                    leading: Container(
+                    leading: SizedBox(
                         height: 200,
                         width: 100,
                         child: FittedBox(
