@@ -116,37 +116,6 @@ class _State extends State<AccountScreen> {
           );
         },
       ),
-      floatingActionButton: SpeedDial(
-        icon: Icons.add,
-        activeIcon: Icons.close,
-        backgroundColor: const Color.fromARGB(255, 102, 205, 170),
-        closeManually: true,
-        onPress: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return const MapPage();
-          }));
-        },
-        children: [
-          SpeedDialChild(
-            child: const Icon(Icons.share_rounded),
-            label: '共有',
-            backgroundColor: Colors.blue,
-            onTap: () {},
-          ),
-          SpeedDialChild(
-            child: const Icon(Icons.mail),
-            label: 'メール',
-            backgroundColor: Colors.blue,
-            onTap: () {},
-          ),
-          SpeedDialChild(
-            child: const Icon(Icons.copy),
-            label: 'コピー',
-            backgroundColor: Colors.blue,
-            onTap: () {},
-          ),
-        ],
-      ),
     );
   }
 }
