@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:omorode/postmap.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _State extends State<HomeScreen> {
-  late Stream<QuerySnapshot> _stream;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> _stream;
   List<Map<String, dynamic>> items = [];
 
   @override
@@ -38,6 +38,9 @@ class _State extends State<HomeScreen> {
           'coment': document['coment'],
           'userName': userName,
           'image': document['image'],
+          'lat': document['lat'],
+          'lng': document['lng'],
+          'tag': document['tag'],
         };
 
         items.add(item);
@@ -49,9 +52,9 @@ class _State extends State<HomeScreen> {
     }
   }
 
-  void _navigateToUserPage(String userName) {
+  void _navigateToUserPage(String userName, LatLng userLocation) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return UserPage(userName: userName);
+      return UserPage(userName: userName, userLocation: userLocation);
     }));
   }
 
@@ -62,8 +65,11 @@ class _State extends State<HomeScreen> {
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
           final item = items[index];
+          final LatLng userLocation =
+              LatLng(item['lat'], item['lng']); // ユーザーの座標を取得
+
           return GestureDetector(
-            onTap: () => _navigateToUserPage(item['userName']),
+            onTap: () => _navigateToUserPage(item['userName'], userLocation),
             child: Container(
               padding:
                   const EdgeInsets.only(left: 5, top: 0, right: 5, bottom: 1),
@@ -89,6 +95,18 @@ class _State extends State<HomeScreen> {
                               '${item['coment']}',
                               style: const TextStyle(fontSize: 14.0),
                             ),
+                            if (item.containsKey('lat') &&
+                                item.containsKey('lng') &&
+                                item.containsKey('tag'))
+                              Column(
+                                children: [
+                                  const SizedBox(height: 4.0),
+                                  Text(
+                                    'lat: ${item['lat']}, lng: ${item['lng']}, tag: ${item['tag']}',
+                                    style: const TextStyle(fontSize: 14.0),
+                                  ),
+                                ],
+                              ),
                           ],
                         ),
                       ),
@@ -116,9 +134,7 @@ class _State extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return const MapPage();
-          }));
+          // マップページへのナビゲーションロジックを追加する
         },
         child: const Icon(Icons.add),
       ),
@@ -128,8 +144,10 @@ class _State extends State<HomeScreen> {
 
 class UserPage extends StatelessWidget {
   final String userName;
+  final LatLng userLocation;
 
-  const UserPage({Key? key, required this.userName}) : super(key: key);
+  const UserPage({Key? key, required this.userName, required this.userLocation})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -140,8 +158,26 @@ class UserPage extends StatelessWidget {
         elevation: 0,
         title: const Text('Omorode', style: TextStyle(fontSize: 40)),
       ),
-      body: Center(
-        child: Text('Welcome, $userName!'),
+      body: Column(
+        children: [
+          Center(
+            child: Text('Welcome, $userName!'),
+          ),
+          Expanded(
+            child: GoogleMap(
+              initialCameraPosition: CameraPosition(
+                target: userLocation,
+                zoom: 14.0,
+              ),
+              markers: {
+                Marker(
+                  markerId: const MarkerId('userMarker'),
+                  position: userLocation,
+                ),
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
