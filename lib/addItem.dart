@@ -1,22 +1,37 @@
-// ignore_for_file: file_names
-
+import 'dart:async';
 import 'dart:io';
+import 'package:meta/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:omorode/app.dart';
+import 'package:omorode/home.dart';
+import 'package:omorode/postmap.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'app.dart';
+import 'firebase_options.dart';
+import 'package:omorode/Listpage.dart';
 
 class AddItem extends StatefulWidget {
-  const AddItem({Key? key}) : super(key: key);
+  final LatLng latLng;
+
+  const AddItem({Key? key, required this.latLng}) : super(key: key);
+
+  LatLng ConvertlatLng(LatLng latLng) {
+    double latitude = latLng.latitude;
+    double longitude = latLng.longitude;
+    return LatLng(latitude, longitude);
+  }
 
   @override
   State<AddItem> createState() => _AddItemState();
 }
 
 class _AddItemState extends State<AddItem> {
-  TextEditingController _controllerName = TextEditingController();
+  final TextEditingController _controllerName = TextEditingController();
 
   GlobalKey<FormState> key = GlobalKey();
 
@@ -26,6 +41,8 @@ class _AddItemState extends State<AddItem> {
   String imageUrl = '';
   final userID = FirebaseAuth.instance.currentUser!.uid;
   String uid = '';
+  List<int> selectedFilterIndexes = [];
+  final items = ['峠道', '景色が綺麗', 'ドライブデート', '道が綺麗', '海沿い', '夜景', 'フォトスポット'];
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +101,7 @@ class _AddItemState extends State<AddItem> {
         ],
         backgroundColor: Colors.white,
         elevation: 0.0,
+        title: const Text('Add an item'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -108,6 +126,33 @@ class _AddItemState extends State<AddItem> {
                   return null;
                 },
               ),
+              Wrap(
+                  spacing: 8.0,
+                  children: List<Widget>.generate(7, (index) {
+                    return FilterChip(
+                        backgroundColor: Colors.grey,
+                        label: Text(items[index]),
+                        selected: selectedFilterIndexes.contains(index),
+                        selectedColor: Colors.white,
+                        onSelected: (bool selected) {
+                          setState(
+                            () {
+                              if (selected) {
+                                if (selectedFilterIndexes.length < 4) {
+                                  selectedFilterIndexes.add(index);
+                                } else {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text('選択できるタグは最大4つです'),
+                                  ));
+                                }
+                              } else {
+                                selectedFilterIndexes.remove(index);
+                              }
+                            },
+                          );
+                        });
+                  })),
               IconButton(
                 onPressed: () async {
                   /*
@@ -119,7 +164,6 @@ class _AddItemState extends State<AddItem> {
                 * Step 5. Display the image on the list
                 *
                 * */
-
                   /*Step 1:Pick image*/
                   //Install image_picker
                   //Import the corresponding library
@@ -172,8 +216,8 @@ class _AddItemState extends State<AddItem> {
 /*              ElevatedButton(
                   onPressed: () async {
                     if (imageUrl.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text('Please upload an image')));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('画像を選択してください')));
 
                       return;
                     }
@@ -181,12 +225,28 @@ class _AddItemState extends State<AddItem> {
                     if (key.currentState!.validate()) {
                       String itemName = _controllerName.text;
                       DateTime timestamp = DateTime.now();
+                      double latitude = widget.latLng.latitude;
+                      double longitude = widget.latLng.longitude;
                       //Create a Map of data
                       Map<String, dynamic> dataToSend = {
                         'coment': itemName,
                         'image': imageUrl,
                         'uid': userID,
                         'posttime': Timestamp.fromDate(timestamp),
+                        'lat': latitude,
+                        'lng': longitude,
+                        'tag1': selectedFilterIndexes.isNotEmpty
+                            ? items[selectedFilterIndexes[0]]
+                            : null,
+                        'tag2': selectedFilterIndexes.length > 1
+                            ? items[selectedFilterIndexes[1]]
+                            : null,
+                        'tag3': selectedFilterIndexes.length > 2
+                            ? items[selectedFilterIndexes[2]]
+                            : null,
+                        'tag4': selectedFilterIndexes.length > 3
+                            ? items[selectedFilterIndexes[3]]
+                            : null,
 
                         //sjb;hoaein
                       };
