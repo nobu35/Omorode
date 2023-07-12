@@ -67,6 +67,7 @@ class _State extends State<AccountScreen> {
     return Scaffold(
       body: ListView.builder(
         itemCount: items.length,
+        padding: const EdgeInsets.only(left: 5, top: 0, right: 5, bottom: 1),
         itemBuilder: (BuildContext context, int index) {
           final item = items[index];
           return GestureDetector(
