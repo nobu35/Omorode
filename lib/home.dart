@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'postmap.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -134,7 +135,9 @@ class _State extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // マップページへのナビゲーションロジックを追加する
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return const MapPage();
+          }));
         },
         child: const Icon(Icons.add),
       ),

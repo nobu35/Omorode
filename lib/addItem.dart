@@ -1,19 +1,14 @@
+// ignore_for_file: file_names
+
 import 'dart:async';
 import 'dart:io';
-import 'package:meta/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:omorode/app.dart';
-import 'package:omorode/home.dart';
-import 'package:omorode/postmap.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'app.dart';
-import 'firebase_options.dart';
-import 'package:omorode/Listpage.dart';
 
 class AddItem extends StatefulWidget {
   final LatLng latLng;
@@ -101,7 +96,11 @@ class _AddItemState extends State<AddItem> {
         ],
         backgroundColor: Colors.white,
         elevation: 0.0,
-        title: const Text('Add an item'),
+        centerTitle: false,
+        title: const Text(
+          'Omorode',
+          style: TextStyle(fontSize: 40),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
