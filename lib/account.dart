@@ -55,6 +55,11 @@ class _State extends State<AccountScreen> {
     }
   }
 
+  void _handleTap(String userName) {
+    print('Tapped userName: $userName');
+    // ここにタップされたuserNameに対する処理を追加できます。
+  }
+
   @override
   Widget build(BuildContext context) {
     currentUserUid = FirebaseAuth.instance.currentUser?.uid ?? '';
@@ -62,14 +67,17 @@ class _State extends State<AccountScreen> {
     return Scaffold(
       body: ListView.builder(
         itemCount: items.length,
+        padding: const EdgeInsets.only(left: 5, top: 0, right: 5, bottom: 1),
         itemBuilder: (BuildContext context, int index) {
           final item = items[index];
-          return Container(
-            padding:
-                const EdgeInsets.only(left: 5, top: 0, right: 5, bottom: 1),
-            child: Column(
-              children: [
-                Row(
+          return GestureDetector(
+            onTap: () {
+              _handleTap(item['userName']);
+            },
+            child: Card(
+              child: Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
@@ -105,11 +113,7 @@ class _State extends State<AccountScreen> {
                     ),
                   ],
                 ),
-                const Divider(
-                  color: Colors.black,
-                  height: 10,
-                ),
-              ],
+              ),
             ),
           );
         },
