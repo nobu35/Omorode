@@ -182,18 +182,7 @@ class _AddItemState extends State<AddItem> {
                         'posttime': Timestamp.fromDate(timestamp),
                         'lat': latitude,
                         'lng': longitude,
-                        'tag1': selectedFilterIndexes.isNotEmpty
-                            ? items[selectedFilterIndexes[0]]
-                            : null,
-                        'tag2': selectedFilterIndexes.length > 1
-                            ? items[selectedFilterIndexes[1]]
-                            : null,
-                        'tag3': selectedFilterIndexes.length > 2
-                            ? items[selectedFilterIndexes[2]]
-                            : null,
-                        'tag4': selectedFilterIndexes.length > 3
-                            ? items[selectedFilterIndexes[3]]
-                            : null,
+                        'tag': selectedFilterIndexes,
 
                         //sjb;hoaein
                       };
