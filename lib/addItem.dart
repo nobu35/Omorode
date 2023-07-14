@@ -1,18 +1,14 @@
+// ignore_for_file: file_names
+
 import 'dart:async';
 import 'dart:io';
-import 'package:meta/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:omorode/app.dart';
-import 'package:omorode/home.dart';
-import 'package:omorode/postmap.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'firebase_options.dart';
-import 'package:omorode/Listpage.dart';
 
 class AddItem extends StatefulWidget {
   final LatLng latLng;
@@ -47,23 +43,85 @@ class _AddItemState extends State<AddItem> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add an item'),
+        actions: [
+          ElevatedButton(
+            onPressed: () async {
+              if (imageUrl.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('写真を選択してください')),
+                );
+                return;
+              }
+
+              if (key.currentState!.validate()) {
+                String itemName = _controllerName.text;
+                DateTime timestamp = DateTime.now();
+                //Create a Map of data
+                Map<String, dynamic> dataToSend = {
+                  'coment': itemName,
+                  'image': imageUrl,
+                  'uid': userID,
+                  'posttime': Timestamp.fromDate(timestamp),
+                };
+
+                //Add a new item
+                _reference.add(dataToSend);
+                //投稿完了メッセージの表示
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('投稿しました'),
+                  ),
+                );
+
+                //投稿完了時ホームに戻る
+                Future.delayed(const Duration(seconds: 2), () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return const App();
+                  }));
+                });
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30), // 角の半径を指定
+              ),
+              minimumSize: Size(150, 10), // 幅と高さを指定
+            ),
+            child: const Text(
+              '投稿',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+        ],
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        centerTitle: false,
+        title: const Text(
+          'Omorode',
+          style: TextStyle(fontSize: 40),
+        ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(20.0),
         child: Form(
           key: key,
           child: Column(
             children: [
               TextFormField(
                 controller: _controllerName,
-                decoration: const InputDecoration(
-                    hintText: 'Enter the name of the item'),
+                maxLines: null, // nullに設定
+                minLines: 7, // 1以上の値に設定
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  hintText: "場所の説明を入力",
+                ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter the item name';
+                    return '写真を選択してください';
                   }
-
                   return null;
                 },
               ),
@@ -95,8 +153,8 @@ class _AddItemState extends State<AddItem> {
                         });
                   })),
               IconButton(
-                  onPressed: () async {
-                    /*
+                onPressed: () async {
+                  /*
                 * Step 1. Pick/Capture an image   (image_picker)
                 * Step 2. Upload the image to Firebase storage
                 * Step 3. Get the URL of the uploaded image
@@ -105,62 +163,56 @@ class _AddItemState extends State<AddItem> {
                 * Step 5. Display the image on the list
                 *
                 * */
+                  /*Step 1:Pick image*/
+                  //Install image_picker
+                  //Import the corresponding library
 
-                    /*Step 1:Pick image*/
-                    //Install image_picker
-                    //Import the corresponding library
+                  ImagePicker imagePicker = ImagePicker();
+                  XFile? file =
+                      await imagePicker.pickImage(source: ImageSource.gallery);
+                  print('${file?.path}');
+                  print(' ${file?.name}');
+                  String FileName = file?.name ?? "";
 
-                    ImagePicker imagePicker = ImagePicker();
-                    XFile? file = await imagePicker.pickImage(
-                        source: ImageSource.gallery);
-                    print('${file?.path}');
-                    print(' ${file?.name}');
+                  late File? image = null;
+                  image == null
+                      ? Container()
+                      : SizedBox(
+                          height: 100.0,
+                          child: Image.file(image, fit: BoxFit.cover),
+                        );
 
-                    double latitude = widget.latLng.latitude;
-                    double longitude = widget.latLng.longitude;
-                    print(latitude);
-                    print(longitude);
+                  if (file == null) return;
+                  //Import dart:core
+                  String uniqueFileName =
+                      DateTime.now().millisecondsSinceEpoch.toString();
 
-                    String FileName = file?.name ?? "";
+                  /*Step 2: Upload to Firebase storage*/
+                  //Install firebase_storage
+                  //Import the library
 
-                    late File? image = null;
-                    image == null
-                        ? Container()
-                        : SizedBox(
-                            height: 100.0,
-                            child: Image.file(image, fit: BoxFit.cover),
-                          );
+                  //Get a reference to storage root
+                  Reference referenceRoot = FirebaseStorage.instance.ref();
+                  Reference referenceDirImages = referenceRoot.child('images2');
 
-                    if (file == null) return;
-                    //Import dart:core
-                    String uniqueFileName =
-                        DateTime.now().millisecondsSinceEpoch.toString();
+                  //Create a reference for the image to be stored
+                  Reference referenceImageToUpload =
+                      referenceDirImages.child(FileName);
 
-                    /*Step 2: Upload to Firebase storage*/
-                    //Install firebase_storage
-                    //Import the library
-
-                    //Get a reference to storage root
-                    Reference referenceRoot = FirebaseStorage.instance.ref();
-                    Reference referenceDirImages =
-                        referenceRoot.child('images2');
-
-                    //Create a reference for the image to be stored
-                    Reference referenceImageToUpload =
-                        referenceDirImages.child(FileName);
-
-                    //Handle errors/success
-                    try {
-                      //Store the file
-                      await referenceImageToUpload.putFile(File(file.path));
-                      //Success: get the download URL
-                      imageUrl = await referenceImageToUpload.getDownloadURL();
-                    } catch (error) {
-                      //Some error occurred
-                    }
-                  },
-                  icon: const Icon(Icons.camera_alt)),
-              ElevatedButton(
+                  //Handle errors/success
+                  try {
+                    //Store the file
+                    await referenceImageToUpload.putFile(File(file.path));
+                    //Success: get the download URL
+                    imageUrl = await referenceImageToUpload.getDownloadURL();
+                  } catch (error) {
+                    //Some error occurred
+                  }
+                },
+                icon: const Icon(Icons.camera_alt),
+                iconSize: 60,
+              ),
+/*              ElevatedButton(
                   onPressed: () async {
                     if (imageUrl.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -205,15 +257,7 @@ class _AddItemState extends State<AddItem> {
                       });
                     }
                   },
-                  child: const Text('保存')),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return ItemList();
-                    }));
-                  },
-                  child: const Text('ListPage'))
+                  child: const Text('保存')), */
             ],
           ),
         ),

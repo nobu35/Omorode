@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'addItem.dart';
-import 'app.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -69,18 +67,11 @@ class MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.white,
           actions: [
             IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Color.fromARGB(255, 102, 205, 170),
-              ),
-              onPressed: () => {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
-                  return const App();
-                }))
-              },
+              icon: const Icon(Icons.delete),
+              onPressed: deleteMarkers,
             ),
             ElevatedButton(
               onPressed: () {
@@ -95,13 +86,15 @@ class MapPageState extends State<MapPage> {
                   );
                 }
               },
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30), // 角の半径を指定
+                ),
+                minimumSize: const Size(150, 10), // 幅と高さを指定
+              ),
               child: const Text(
                 "次へ",
               ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: deleteMarkers,
             )
           ],
         ),
